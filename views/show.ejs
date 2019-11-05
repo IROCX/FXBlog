@@ -1,0 +1,32 @@
+<%include ./partials/header%>
+
+
+<div class="ui main text container segment">
+    <div class="ui huge header">
+        <%=blog.title%>
+    </div>
+    <div class="ui top attached">
+        <div class="item">
+            <img class="ui image centered rounded" src="<%=blog.image%>" alt="" height="350px" width="500px">
+            <div class="content">
+                <span id="date">
+                </span>
+            </div>
+            <div class="description">
+                <p style="text-align: justify; width: 500PX;">
+                    <%-blog.body%>
+                </p>
+            </div>
+            <button class="ui mini button green basic" onclick="location.href='<%=blog._id%>/edit'">Edit</button>
+            <form action="/blogs/<%=blog._id%>?_method=DELETE" method="post" id="deleteForm">
+                <input type="submit" class="ui mini button red basic" value="Delete">
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    var a = moment('<%=blog.created%>').format('MMMM Do, YYYY <br> hh:mm:ss A');
+    console.log(a);
+    $('#date').html(a)
+</script>
+<%include ./partials/footer%>

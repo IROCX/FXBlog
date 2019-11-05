@@ -1,0 +1,56 @@
+<% include partials/header %>
+
+<div class="ui main text container">
+
+    <div class="ui huge header">
+        FX Blog
+    </div>
+
+    <div class="ui top attached segment">
+
+        <div class="ui divided items">
+
+            <%blogs.forEach((value, index, array) => {%>
+
+            <div class="item">
+
+
+                <div class="image">
+                    <img src="<%=value.image%>" alt="" width="500px" height="350px">
+                </div>
+
+
+                <div class="content">
+                    <a class="header" href="/blogs/<%=value._id%>"><%=value.title%></a>
+                    <div class="meta">
+                        <span id="date"></span>
+                    </div>
+                    <script>
+                        var a = moment('<%=value.created%>').format('MMMM Do, YYYY <br> hh:mm:ss A');
+                        console.log(a);
+                        $('#date').html(a)
+                    </script>
+
+                    <div class="description">s
+                        <p><%-value.body.substring(0, 100)%>...</p>
+                    </div>
+                    <div class="extra">
+                        <a class="ui mini floated basic violet button" href="/blogs/<%=value._id%>">Read more <i
+                                class="icon chevron right"></i> </a>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+            </div>
+            <%})%>
+        </div>
+    </div>
+</div>
+
+
+<% include partials/footer %>
