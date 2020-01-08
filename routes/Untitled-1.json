@@ -1,0 +1,34 @@
+{
+    "_id": ObjectId("5dccea61217f3e1fd4aa1257"),
+    "comments": [ObjectId("5dcd4615bbd0372dcc62b9f4")],
+    "name": "Mustang GT",
+    "image": "https://static-ssl.businessinsider.com/image/5d9b5bff52887931e8497a36-1405/141222twnmustang.jpg",
+    "description": "So the Mustang is a sports car with very few flaws of one. Sure it is not perfect, but with that price tag, you get a lot of American muscle for your money. The Mustang has a rich heritage, is an icon and more importantly in the latest generation is an accomplished car too.",
+    "author": {
+        "id": ObjectId("5dc8f136e53c1f1d847bd643"),
+        "username": "IROC"
+    },
+    "__v": 1
+} {
+    "_id": ObjectId("5dccef80abfa6533e4e16a5c"),
+    "comments": [],
+    "name": "Mustang GT",
+    "image": "https://static-ssl.businessinsider.com/image/5d9b5bff52887931e8497a36-1405/141222twnmustang.jpg",
+    "description": "Niagara Falls is a group of three waterfalls at the southern end of Niagara Gorge, between the Canadian province of Ontario and the US state of New York. The largest is Horseshoe Falls, also known as Canadian Falls, which straddles the international border between Canada and the United States.",
+    "author": {
+        "id": ObjectId("5dc8f136e53c1f1d847bd643"),
+        "username": "IROC"
+    },
+    "__v": 0
+} {
+    "_id": ObjectId("5dce2c183242b17ffc8a7f0d"),
+    "comments": [],
+    "name": "1",
+    "image": "https://cdn.getyourguide.com/img/tour_img-2005387-146.jpg",
+    "description": "Niagara Falls is a group of three waterfalls at the southern end of Niagara Gorge, between the Canadian province of Ontario and the US state of New York. The largest is Horseshoe Falls, also known as Canadian Falls, which straddles the international border between Canada and the United States.",
+    "author": {
+        "id": ObjectId("5dce2c113242b17ffc8a7f0c"),
+        "username": "iroc7"
+    },
+    "__v": 0
+}
