@@ -1,0 +1,70 @@
+<%include ../partials/header%>
+
+<div id="floatButton" class="ui menu">
+    <form autocomplete="off" action="/search" method="post" class="ui form">
+        <div style="margin:0;" class="inline fields">
+            <div style="padding: 0; margin:0" class="field fluid">
+                <input type="text" placeholder="Search a user's posts..." name='user' required>
+            </div>
+            <div style="padding: 0; margin:0 ;" class="field fluid">
+                <button class="ui basic button" type="submit"><i class="icon search"></i></button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div style="margin-top: 5%" class="ui container">
+    <div class="ui two column centered padded relaxed grid">
+        <div class="column">
+            <h1>
+                Welcome to FX Blog
+            </h1>
+            <p style="font-size: 1.2rem" class="ui description">
+                The Community for Tech <i class="icon random"></i>The Tech for Community.
+            </p>
+            <%if(typeof currentUser !== 'undefined'){%>
+            <button class="ui primary button" onclick="location.href='/campgrounds/add'">
+                <i class="icon plus"></i>Add Blog Post
+            </button>
+            <%}else{%>
+            <div class="ui caption">
+                <em>
+                    <i class="icon info circle"></i>
+                    Login to be a part of community and
+                    contribute Tech
+                    knowledge
+                </em>
+            </div>
+            <%}%>
+        </div>
+    </div>
+</div>
+
+
+<div style="margin-top: 25px;margin-bottom: 5%" class="container ui">
+    <div class="ui centered grid">
+        <%campgrounds.forEach((value, index, array) => {%>
+            <div class="two column row ui segment ">
+
+                <div class="four wide column">
+                    <img style="object-fit: cover; border-radius:5px" style="border-radius: 5px" src=' <%=value.image%>'
+                        alt="" height="150" width='260'> </div>
+                <div class="column left aligned twelve wide">
+                    <div class="ui header">
+                        <%=value.name%>
+                    </div>
+                    <div style="margin-bottom: 30px" class="ui description">
+                        <%=value.description.substring(0,300)%>...
+                    </div>
+
+                    <span class="ui fluid">
+                        <i class=" info icon"></i>
+                        <a href="/campgrounds/<%=value._id%>">Click here for more info</a>
+                    </span>
+                </div>
+
+            </div>
+            <%})%>
+        </div>
+    </div>
+    <%include ../partials/footer%>

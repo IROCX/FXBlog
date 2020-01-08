@@ -5,23 +5,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>My Blog</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
-        integrity="sha256-9mbkOfVho3ZPXfM7W8sV2SndrGDuh7wuyLjtsWeTI1Q=" crossorigin="anonymous" />
-    <link rel="stylesheet" href="/stylesheets/styleIndex.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"
-        integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
+    <title>FX</title>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
+        integrity="sha256-9mbkOfVho3ZPXfM7W8sV2SndrGDuh7wuyLjtsWeTI1Q=" crossorigin="anonymous" />
 
+    <style>
+        #floatButton {
+            position: fixed;
+            margin-top: 30px;
+            right: 0;
+            z-index: 1;
+        }
+    </style>
 </head>
 
 <body>
+    <div style="background: white;" class="ui fixed menu">
+        <div style="font-size: 20px;margin: 0 0;padding:5px 20px 5px 10px" class="header item">
+            <i class="icon cogs"></i>FX
+        </div>
+        <a id="menu" href='/' class="ui item active">
+            Home
+        </a>
+        <a id="menu" href='/about' class="ui item">
+            About
+        </a>
+        <div class="right menu">
+            <%if(typeof currentUser === 'undefined'){%>
+            <a id="menu" href="/login" class="ui item">
+                Login
+            </a>
+            <a id="menu" href="/register" class="ui item">
+                Sign Up
+            </a>
+            <%}else{%>
+            <div style="background-color: rgb(245, 245, 245);border-radius: 3px;">
+                <a id="menu" href="/userprofile/<%=currentUser.id%>" class="ui item">
+                    <i class="icon large user outline"></i> <em><%=currentUser.name%></em>
+                </a>
 
-    <div class="ui fixed inverted menu">
-        <div class="ui container">
-            <div class="ui header item"><i class="tv icon"></i> FX Blog</div>
-            <a class="item" href="/">Home</a>
-            <a class="item" href="/blogs/new">New Post</a>
+            </div>
+            <a id="menu" href="/logout" class="ui item">
+                Logout
+            </a>
+            <%}%>
         </div>
     </div>
+
+ 

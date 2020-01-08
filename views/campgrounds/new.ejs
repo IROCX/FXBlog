@@ -1,0 +1,34 @@
+<%include ../partials/header%>
+
+
+<div class="container">
+    <h1 style="margin: 10% 0 25px 0" class="ui header center aligned">Create a new CampGround</h1>
+
+    <form action="/campgrounds" method="post">
+        <div style=" width:50%;margin:0 auto" class="ui form">
+
+            <div class="field">
+                <label for="">Name</label>
+                <input type="text" name="name" placeholder="Mount Everest">
+            </div>
+            <div class="field">
+                <label for="">Image URL</label>
+                <input type="text" name="image" placeholder="http://www.image.com">
+            </div>
+            <div class="field">
+                <label for="">Description</label>
+                <textarea style="text-align: justify;" name="desc" rows="10" cols="30" placeholder="It's the highest point on Earth..."></textarea>
+            </div>
+            <div class="ui fluid buttons">
+                <input class="ui button primary" type="submit">
+                <div class="or"></div>
+                <button type="button" class="ui button basic blue" onclick="location.href='/campgrounds'">Go
+                    Back</button>
+            </div>
+    </form>
+</div>
+
+</div>
+
+
+<%include ../partials/footer%>

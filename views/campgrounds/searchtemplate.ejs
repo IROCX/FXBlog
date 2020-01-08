@@ -1,0 +1,55 @@
+<%include ../partials/header%>
+
+<div id="floatButton" class="ui menu">
+    <button class="ui basic button" onclick="location.href='campgrounds'"><i class="icon home"></i></button>
+</div>
+
+<div style="margin-top: 5%" class="ui container">
+    <div class="ui two column centered padded relaxed grid">
+        <div class="column">
+            <h1>
+                Posts by <em>"<%=searchKey%>"</em>
+
+            </h1>
+            <p style="font-size: 1.2rem" class="ui description">
+                <%=searchedUser.length%> Results found
+            </p>
+            <%if(typeof currentUser !== 'undefined'){%>
+            <button class="ui primary button" onclick="location.href='/campgrounds/add'">
+                <i class="icon plus"></i>Add Blog Post
+            </button>
+            <%}else{%>
+
+            <%}%>
+        </div>
+    </div>
+</div>
+
+
+<div style="margin-top: 25px;margin-bottom: 5%" class="container ui">
+    <div class="ui centered grid">
+        <%searchedUser.forEach((value, index, array) => {%>
+            <div class="two column row ui segment ">
+
+                <div class="four wide column">
+                    <img style="object-fit: cover; border-radius:5px" style="border-radius: 5px" src=' <%=value.image%>'
+                        alt="" height="150" width='260'> </div>
+                <div class="column left aligned twelve wide">
+                    <div class="ui header">
+                        <%=value.name%>
+                    </div>
+                    <div style="margin-bottom: 30px" class="ui description">
+                        <%=value.description.substring(0,150)%>...
+                    </div>
+
+                    <span class="ui fluid">
+                        <i class=" info icon"></i>
+                        <a href="/campgrounds/<%=value._id%>">Click here for more info</a>
+                    </span>
+                </div>
+
+            </div>
+            <%})%>
+        </div>
+    </div>
+    <%include ../partials/footer%>

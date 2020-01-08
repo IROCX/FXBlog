@@ -1,0 +1,121 @@
+<%include ../partials/header%>
+
+<div style="margin-top: 75px" class="ui container">
+
+    <div class="ui equal width two column relaxed grid">
+
+        <div class="six wide column">
+            <div class="row">
+
+                <div style="height: 100px" class="">
+                </div>
+
+
+                <div style="margin-top: 20px" class="column left aligned">
+                    <span class="ui header">Description</span>
+                </div>
+                <div style="margin-top: 5%; margin-bottom:10%" class="column left aligned">
+                    <p style="white-space:pre-wrap; text-align:justify;" style="text-align: justify" class="caption"><%-foundCampground.description%></p>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="column ten wide">
+            <div class="ui equal centered width grid">
+                <div style="display: block;margin-top: 2.5%" class="row">
+                    <div class="ui header large">
+                        <%=foundCampground.name%>
+                    </div>
+                    <p>
+                        Posted By - <strong><em><%=foundCampground.author.username%></em></strong>
+                    </p>
+                </div>
+
+                <div class="ui divider"></div>
+                <div style="padding-top: 0; padding-bottom: 0" class="row">
+                    <img class="img-fluid" width="100%" height="auto"
+                        style="margin: 10px auto; max-width: 800px; max-height: 600px; border-radius:5px"
+                        src="<%=foundCampground.image%>" alt="">
+                </div>
+
+                <div style="padding-top: 0;" class="two column row">
+                    <div style="padding-top: 7px" class="column">
+                        <div class="column left floated">
+                            <div class="ui labeled button">
+                                <a class="ui red button small"
+                                    href="/campgrounds/<%=foundCampground._id%>/comments/new">
+                                    <i class="icon comments"></i> Comment
+                                </a>
+                                <div class="ui basic red left pointing label">
+                                    <%=foundCampground.comments.length%>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="padding-top: 0" class="column right aligned floated">
+                        <%if(typeof currentUser !=='undefined' && (foundCampground.author.id.equals(currentUser._id)||(currentUser.id === '5dc8f136e53c1f1d847bd643'))){%>
+
+                        <form action="/campgrounds/<%=foundCampground._id%>?_method=DELETE" method="post">
+                            <a href="/campgrounds/<%=foundCampground._id%>/edit" class="ui pointing blue basic label"><i
+                                    class="icon edit"></i> Edit
+                                Post</a>
+                            <button type="submit" class="ui pointing red basic label"><i
+                                    class="times circle outline icon"></i>
+                                Delete
+                                Post</button>
+                        </form>
+                        <%}%>
+                    </div>
+                </div>
+
+                    <div style="margin-bottom:50px; margin-top: 10px; background-color: rgb(241, 241, 241); border-radius: 5px"
+                        class="column sixteen wide left aligned fluid justified">
+                        <%foundCampground.comments.forEach((value, index, array) => {%>
+                        <div class="ui padded relaxed grid">
+                            <div class="twelve wide column ">
+                                <div class=" event">
+                                    <div class="content">
+                                        <div class="summary">
+                                            <span class=" ui header">
+                                                <%-value.author.username%>
+                                            </span>
+                                            <span class="ui tiny">
+                                                <em>commented on this post</em>
+                                            </span>
+                                        </div>
+                                        <div style="text-align: justify" class="extra text">
+                                            <%-value.text%>
+                                        </div>
+                                        <div style="text-align: right" class="extra text">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="padding-top: 30px" class="column four wide fluid">
+                                <%if(typeof currentUser !=='undefined' && (value.author.id.equals(currentUser._id)||(currentUser.id === '5dc8f136e53c1f1d847bd643'))){%>
+                                <form
+                                    action="/campgrounds/<%=foundCampground._id%>/comments/<%=value._id%>?_method=DELETE"
+                                    method="post">
+                                    <div class="ui buttons mini">
+                                        <button type="button"
+                                            onclick='location.href="/campgrounds/<%=foundCampground._id%>/comments/<%=value._id%>/edit"'
+                                            class="ui button blue">Edit</button>
+                                        <button type="submit" class="ui button basic blue"
+                                            value="Delete">Delete</button>
+                                    </div>
+                                </form>
+                                <%}%>
+                            </div>
+                        </div>
+                        <div style="padding: 0; margin:0" class="ui divider"></div>
+                        <%})%>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <%include ../partials/footer%>

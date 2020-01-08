@@ -1,0 +1,36 @@
+<%include ../partials/header%>
+
+<div style="margin-top: 10%; height:50%; margin-bottom:0" class="ui container">
+    <div class="ui grid equal width center aligned padded">
+        <div class="row">
+            <div class="ui header huge"> <i class="user circle icon"></i> Login</div>
+        </div>
+        <div class="column eight wide left aligned">
+            <form action="/login" method="POST">
+                <div class="ui form">
+                    <div class="field">
+                        <label for="">Username</label>
+                        <input type="text" placeholder="James.Cameron7" name="username">
+                    </div>
+                    <div class="field">
+                        <label for="">Password</label>
+                        <input type="password" placeholder="●●●●●●●●●●●" name="password">
+                    </div>
+                    <div class="three fields">
+                        <div class="field">
+                        </div>
+                        <div class="field">
+                            <input type="submit" class="ui button basic green fluid" value="Login">
+                        </div>
+                        <div class="field">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<%include ../partials/footer%>

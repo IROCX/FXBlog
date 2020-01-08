@@ -1,0 +1,8 @@
+body {
+    background-color: aquamarine;
+}
+
+.img-thumbnail>img {
+    width: 100%;
+    height: 100%;
+}

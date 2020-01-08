@@ -1,0 +1,53 @@
+<%include ../partials/header%>
+
+<div style="margin-top: 5%; margin-bottom: 5%;" class=" ui container">
+    <div class="ui grid equal width center aligned padded">
+        <div class="row">
+            <div class="ui header huge"> <i class="user plus icon"></i> Register</div>
+        </div>
+        <div class="column eight wide left aligned">
+            <form action="./register" method="POST">
+                <div class="ui form">
+                    <div class="field">
+                        <label for=""> <i class="user outline icon"></i> Username</label>
+                        <input type="text" placeholder="James@7" name="username">
+                    </div>
+                    <div class="field">
+                        <label for=""><i class="edit outline icon"></i> Name</label>
+                        <input type="text" placeholder="James Cameron" name='name'>
+                    </div>
+                    <div class="field">
+                        <label for=""><i class="phone icon"></i> Mobile Number</label>
+                        <input type="text" placeholder="95xxxxxx37" name="contact">
+                    </div>
+                    <div class="field">
+                        <label for=""> <i class="at icon"></i> E-mail</label>
+                        <input type="text" placeholder="jcameron@gmil.com" name="email">
+                    </div>
+                    <div class="field">
+                        <label for=""> <i class="keyboard outline icon"></i> Password</label>
+                        <input type="password" placeholder="●●●●●●●●●●●" name="password">
+                    </div>
+                    <div class="field">
+                        <label for=""> <i class="barcode icon"></i> Confirm Password</label>
+                        <input type="password" placeholder="●●●●●●●●●●●" name="cpassword">
+                    </div>
+                    <div class="three fields">
+                        <div class="field">
+                        </div>
+                        <div class="field">
+                            <button type="submit" class="ui button basic blue fluid"><i class="check icon"></i>
+                                Register</button>
+                        </div>
+                        <div class="field">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<%include ../partials/footer%>

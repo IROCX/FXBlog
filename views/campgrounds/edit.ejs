@@ -1,0 +1,35 @@
+<%include ../partials/header%>
+
+
+<div class="container">
+    <h1 style="margin: 10% 0 25px 0" class="ui header center aligned">Edit new <%=editCampground.name%>
+    </h1>
+
+    <form action="/campgrounds/<%=editCampground._id%>?_method=PUT" method="post">
+        <div style=" width:50%;margin:0 auto" class="ui form">
+            <div class="field">
+                <label for="">Name</label>
+                <input type="text" name="updateData[name]" value="<%=editCampground.name%>">
+            </div>
+            <div class="field">
+                <label for="">Image URL</label>
+                <input type="text" name="updateData[image]" value="<%=editCampground.image%>">
+            </div>
+            <div class="field">
+                <label for="">Description</label>
+                <textarea style="text-align:justify;" name="updateData[description]" cols="30"
+                    rows="10"><%=editCampground.description%></textarea>
+            </div>
+            <div class="ui fluid buttons">
+                <input class="ui button primary" type="submit" value="Save">
+                <div class="or"></div>
+                <button type="button" class="ui button basic blue"
+                    onclick="location.href='/campgrounds'">Discard</button>
+            </div>
+    </form>
+</div>
+
+</div>
+
+
+<%include ../partials/footer%>

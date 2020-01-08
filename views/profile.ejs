@@ -1,0 +1,92 @@
+<%include ./partials/header%>
+
+<div style="margin-top: 75px" class="ui container">
+
+    <div class="ui equal width two column relaxed padded grid">
+
+        <div style="margin-bottom: 50px;" class="six wide column">
+            <div class="row">
+
+                <div style="padding: 10px 0" class="column left aligned">
+                    <img class="ui medium circular image" src="http://clipart-library.com/images/pi7rn8LdT.png" alt="">
+                </div>
+
+                <div class="column left aligned">
+                    <span class="ui header"><%=user.name%></span>
+                </div>
+
+                <div class="ui divider"></div>
+
+                <div style="padding: 5px;" class="column left aligned">
+                    <span class="ui caption"><em><i class="icon at large"></i></em><strong>
+                            <%=user.username%></strong></span>
+                </div>
+                <div style="padding: 5px;" class="column left aligned">
+                    <span class="ui caption"><em><i class="icon large mail"></i></em><strong>
+                            <%=user.email%></strong></span>
+                </div>
+                <div style="padding: 5px;" class="column left aligned">
+                    <p style="text-align: justify" class="caption"><i class="icon large paper plane outline"></i>
+                        <%=userDetails.length%> posts
+                    </p>
+                </div>
+                <div class="ui divider"></div>
+                <div class="ui list">
+                    <%if(typeof userlist !== 'undefined'){%>
+                    <h2 class="ui header">Users on Blog</h2>
+                    <%userlist.forEach((value, index, array) => {%>
+                    <%if(value.id !=='5dc8f136e53c1f1d847bd643'){%>
+                    <div class="item">
+                        <img class="ui avatar image"
+                            src="https://icons-for-free.com/iconfiles/png/512/friend+human+man+member+person+profile+user+users+icon-1320168707291252637.png">
+                        <div class="content">
+                            <a href="/userprofile/<%=value.id%>" class="header"><%=value.name%></a>
+
+                            <a href="/user/destroy/<%=value.id%>"><i class="icon close red"></i></a>
+
+                        </div>
+                    </div>
+
+                    <%}%>
+                    <%})%>
+                    <%}%>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="column ten wide">
+            <div class="ui equal centered width grid">
+
+                <div style="margin-top: 25px;margin-bottom: 5%" class="container ui">
+                    <div class="ui centered grid">
+                        <%userDetails.forEach((value, index, array) => {%>
+                    <div class="two column row ui segment ">
+
+                        <div class="six wide column">
+                            <img style="object-fit: cover; border-radius:5px" style="border-radius: 5px"
+                                src=' <%=value.image%>' alt="" height="150" width='260'> </div>
+                        <div class="column left aligned ten wide">
+                            <div class="ui header">
+                                <%=value.name%>
+                            </div>
+                            <div style="margin-bottom: 30px" class="ui description">
+                                <%=value.description.substring(0,150)%>...
+                            </div>
+
+                            <span class="ui fluid">
+                                <i class=" info icon"></i>
+                                <a href="/campgrounds/<%=value._id%>">Click here for more info</a>
+                            </span>
+                        </div>
+
+                    </div>
+                    <%})%>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<%include ./partials/footer%>

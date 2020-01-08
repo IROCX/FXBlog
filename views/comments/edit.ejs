@@ -1,0 +1,32 @@
+<%include ../partials/header%>
+
+
+<div class="ui container">
+
+    <h1 style="margin-top: 10%" class="ui header center aligned">Edit comment</h1>
+
+    <form action="/campgrounds/<%=campgroundid%>/comments/<%=editComment._id%>?_method=PUT" method="post">
+        <div style=" width:50%;margin:0 auto" class="ui form">
+
+            <div class="field">
+                <label for="">Comment</label>
+                <textarea name="comment[text]" cols="30" rows="10"><%-editComment.text%></textarea>
+            </div>
+
+            <div class="ui fluid buttons">
+                <input type="submit" class="ui positive button" value="Save"></input>
+                <div class="or"></div>
+                <button type="button" onclick="location.href='/campgrounds/<%=campgroundid%>'"
+                    class="ui button basic green">GoBack</button>
+            </div>
+
+        </div>
+
+
+    </form>
+</div>
+</div>
+
+
+
+<%include ../partials/footer%>
