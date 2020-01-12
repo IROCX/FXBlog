@@ -50,14 +50,12 @@ router.get('/campgrounds/add', isLoggedIn, (req, res) => {
     res.render('campgrounds/new')
 })
 
-
-
 router.get('/campgrounds/:id', (req, res) => {
     Campground.findById(req.params.id).populate('comments').exec((error, itemReturned) => {
         if (error) {
             console.log(error)
         } else {
-            res.render('campgrounds/show', { foundCampground: itemReturned })
+            res.render('campgrounds/show', { foundCampground: itemReturned, SECRET_id: process.env.secret_id })
         }
     })
 })
@@ -72,9 +70,12 @@ router.get('/campgrounds/:id/edit', actionAuth, (req, res) => {
 
 router.put('/campgrounds/:id', actionAuth, (req, res) => {
     // res.send('update campground route')
-    // console.log()
-    req.body.updateData.description = req.sanitize(req.body.updateData.description)
+    console.log(req.body.updateData.desc)
+    // req.body.updateData.desc = req.sanitize(req.body.updateData.desc)
     Campground.findByIdAndUpdate(req.params.id, req.body.updateData, (error, itemReturned) => {
+        if (error) {
+            console.log('Errrrrrooooooooooooooooooooooooooooooooooooooor')
+        }
         res.redirect('/campgrounds/' + req.params.id)
     })
 })
@@ -114,12 +115,12 @@ router.get('/userprofile/:id', isLoggedIn, (req, res) => {
                             if (error) {
                                 console.log('error')
                             } else {
-                                res.render("profile.ejs", { userDetails: irPosts, user: ir, userlist: allusers })
+                                res.render("campgrounds/profile.ejs", { userDetails: irPosts, user: ir, userlist: allusers })
                                 console.log(allusers)
                             }
                         })
                     } else {
-                        res.render("profile.ejs", { userDetails: irPosts, user: ir })
+                        res.render("campgrounds/profile.ejs", { userDetails: irPosts, user: ir })
                     }
                 }
             })

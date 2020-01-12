@@ -11,47 +11,134 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
         integrity="sha256-9mbkOfVho3ZPXfM7W8sV2SndrGDuh7wuyLjtsWeTI1Q=" crossorigin="anonymous" />
 
+    <!-- BootStrap 4 CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+
     <style>
         #floatButton {
             position: fixed;
-            margin-top: 30px;
+            float: right;
+            top: 75px;
             right: 0;
             z-index: 1;
+        }
+
+        #addbutton {
+            position: fixed;
+            top: 85%;
+            right: 5%;
+            z-index: 1;
+            border-radius: 20px;
+        }
+
+        #addbutton span {
+            max-width: 0;
+            display: inline-block;
+            -webkit-transition: max-width 1s;
+            transition: max-width 1s;
+            overflow: hidden;
+            vertical-align: top;
+            white-space: nowrap;
+        }
+
+        #addbutton:hover span {
+            max-width: 150px;
+        }
+
+
+
+        .lastRule {
+            width: 70%;
+            border: 0;
+            height: 1px;
+            background: #333;
+            background-image: -webkit-linear-gradient(left, #ccc, #333, #ccc);
+        }
+
+        #lastRuleStart {
+            width: 80%;
+        }
+
+
+        #holder {
+            margin-top: 5%;
+            max-width: 50%;
+        }
+
+        #holder input {
+
+            margin: 0 5%;
+            transition: margin 0.2s ease-in-out;
+        }
+
+        #holder input:hover {
+            margin: 0 1%;
+        }
+
+        @media (max-width:823px) {
+            #register {
+                margin-top: 25%;
+                margin-bottom: 10%;
+                font-size: 2.75rem;
+                text-align: center;
+                max-width: 100%;
+            }
+
+            #holder {
+                margin-top: 5%;
+                max-width: 70%;
+                overflow-y: auto;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div style="background: white;" class="ui fixed menu">
-        <div style="font-size: 20px;margin: 0 0;padding:5px 20px 5px 10px" class="header item">
-            <i class="icon cogs"></i>FX
-        </div>
-        <a id="menu" href='/' class="ui item active">
-            Home
-        </a>
-        <a id="menu" href='/about' class="ui item">
-            About
-        </a>
-        <div class="right menu">
-            <%if(typeof currentUser === 'undefined'){%>
-            <a id="menu" href="/login" class="ui item">
-                Login
-            </a>
-            <a id="menu" href="/register" class="ui item">
-                Sign Up
-            </a>
-            <%}else{%>
-            <div style="background-color: rgb(245, 245, 245);border-radius: 3px;">
-                <a id="menu" href="/userprofile/<%=currentUser.id%>" class="ui item">
-                    <i class="icon large user outline"></i> <em><%=currentUser.name%></em>
-                </a>
+    <div class="navbar navbar-expand-md fixed-top navbar-dark bg-dark pt-2 navbar-static-top">
 
-            </div>
-            <a id="menu" href="/logout" class="ui item">
-                Logout
-            </a>
-            <%}%>
+        <a href="/" class="navbar-brand">
+            <img src="../Untitled.png" width="35" height="25" alt="" srcset="" class="d-inline-block align-top">FX
+        </a>
+        <button class="navbar-toggler" data-toggle='collapse' data-target='#content' aria-controls="content"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <div class="collapse navbar-collapse" id="content">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item"> <a class="nav-link" href='/'>Home</a> </li>
+                <li class="nav-item"> <a class="nav-link" href='/about'>About</a> </li>
+            </ul>
+
+
+
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <%if(typeof currentUser === 'undefined'){%>
+                    <a href="/login" class="nav-link">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/register" class="nav-link">Sign Up</a>
+                </li>
+                <%}else{%>
+                <li class="nav-item mt-7">
+                    <a style="color:rgb(191, 191, 191);" href="/userprofile/<%=currentUser.id%>" class="nav-link"> <i
+                            class="icon large user outline"></i>
+                        <%=currentUser.name%></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/logout" class="nav-link">Logout</a>
+                </li>
+                <%}%>
+        </ul>
         </div>
+
     </div>
-
- 

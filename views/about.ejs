@@ -1,6 +1,52 @@
 <%include partials/header%>
+<style>
+    .card {
+        max-width: 30%;
+        margin: 5% auto;
+    }
 
-<div style="margin-top:100px" class="ui container">
+    @media(max-width:850px) {
+        .card {
+            max-width: 80%;
+            margin: 20% auto;
+        }
+
+        .card-img {
+            max-width: 100%;
+            height: 200px;
+        }
+
+        .card {
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+        }
+    }
+</style>
+
+<div class="card text-center">
+    <div class="card-body">
+        <img class="card-img" src="devpic1.png" alt="">
+    </div>
+    <div class="card-body">
+        <h5 class=" card-title">Ashish Yadav</h5>
+        <p class="card-text"><i class="icon css3"></i> Frontend Developer</p>
+        <p class="card-text">
+            <p>I am a student studying B.Tech (CSE) at IIIT Surat.</p>
+    </div>
+    <div class=" card-body text-muted">
+        <div class="h4 text-center">Contact</div>
+        <div class="row">
+            <div class="col-6 p-0">
+                <i class="envelope icon"></i> irocx.7@gmail.com
+            </div>
+            <div class="col-6 p-0">
+                <i class="phone icon"></i> +91 - 1234567890
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- <div style="margin-top:100px" class="ui container">
     <div class="ui one column centered grid">
         <div class="row">
             <div class="sixteen wide column">
@@ -33,5 +79,5 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <%include partials/footer%>

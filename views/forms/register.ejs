@@ -1,51 +1,82 @@
 <%include ../partials/header%>
+<style>
+    #holder {
+        margin-top: 5%;
+        max-width: 50%;
+    }
 
-<div style="margin-top: 5%; margin-bottom: 5%;" class=" ui container">
-    <div class="ui grid equal width center aligned padded">
-        <div class="row">
-            <div class="ui header huge"> <i class="user plus icon"></i> Register</div>
-        </div>
-        <div class="column eight wide left aligned">
-            <form action="./register" method="POST">
-                <div class="ui form">
-                    <div class="field">
-                        <label for=""> <i class="user outline icon"></i> Username</label>
-                        <input type="text" placeholder="James@7" name="username">
-                    </div>
-                    <div class="field">
-                        <label for=""><i class="edit outline icon"></i> Name</label>
-                        <input type="text" placeholder="James Cameron" name='name'>
-                    </div>
-                    <div class="field">
-                        <label for=""><i class="phone icon"></i> Mobile Number</label>
-                        <input type="text" placeholder="95xxxxxx37" name="contact">
-                    </div>
-                    <div class="field">
-                        <label for=""> <i class="at icon"></i> E-mail</label>
-                        <input type="text" placeholder="jcameron@gmil.com" name="email">
-                    </div>
-                    <div class="field">
-                        <label for=""> <i class="keyboard outline icon"></i> Password</label>
-                        <input type="password" placeholder="●●●●●●●●●●●" name="password">
-                    </div>
-                    <div class="field">
-                        <label for=""> <i class="barcode icon"></i> Confirm Password</label>
-                        <input type="password" placeholder="●●●●●●●●●●●" name="cpassword">
-                    </div>
-                    <div class="three fields">
-                        <div class="field">
-                        </div>
-                        <div class="field">
-                            <button type="submit" class="ui button basic blue fluid"><i class="check icon"></i>
-                                Register</button>
-                        </div>
-                        <div class="field">
-                        </div>
-                    </div>
-                </div>
-            </form>
+    #holder input {
+
+        margin: 0 5%;
+        transition: margin 0.2s ease-in-out;
+    }
+
+    #holder input:hover {
+        margin: 0 1%;
+    }
+
+    @media (max-width:823px) {
+        #register {
+            margin-top: 25%;
+            margin-bottom: 10%;
+            font-size: 2.75rem;
+            text-align: center;
+            max-width: 100%;
+        }
+
+        #holder {
+            margin-top: 5%;
+            max-width: 70%;
+            overflow-y: auto;
+        }
+    }
+</style>
+<div class="container" id="holder">
+    <div class="row">
+        <div class="col">
+            <div id="register" class="h3"> <i class="user plus icon"></i> Register</div>
         </div>
     </div>
+    <form action="./register" method="POST">
+        <div class="row form-group">
+            <label for=""> <i class="user outline icon"></i> Username</label>
+            <input autocomplete='off' class="form-control" type="text" placeholder="James@7" name="username">
+        </div>
+
+        <div class="row form-group">
+            <label for=""><i class="edit outline icon"></i> Name</label>
+            <input autocomplete='off' class="form-control" type="text" placeholder="James Cameron" name='name'>
+        </div>
+        <div class="row form-group">
+            <label for=""><i class="phone icon"></i> Mobile Number</label>
+            <input autocomplete='off' class="form-control" type="text" placeholder="95xxxxxx37" name="contact">
+        </div>
+        <div class="row form-group">
+            <label for=""> <i class="at icon"></i> E-mail</label>
+            <input autocomplete='off' class="form-control" type="text" placeholder="jcameron@gmil.com" name="email">
+        </div>
+        <div class="row form-group">
+            <label for=""> <i class="keyboard outline icon"></i> Password</label>
+            <input autocomplete='off' class="form-control" type="password" placeholder="●●●●●●●●●●●" name="password">
+        </div>
+        <div class="row form-group">
+            <label for=""> <i class="barcode icon"></i> Confirm Password</label>
+            <input autocomplete='off' class="form-control" type="password" placeholder="●●●●●●●●●●●" name="cpassword">
+        </div>
+        <div class="row">
+            <div class="col-1">
+            </div>
+            <div class="col-10">
+                <button type="submit" class="ui button basic blue fluid"><i class="check icon"></i>
+                    Register</button>
+            </div>
+            <div class="col-1">
+            </div>
+        </div>
+
+    </form>
+</div>
+</div>
 </div>
 
 

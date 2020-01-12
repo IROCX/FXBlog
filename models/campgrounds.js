@@ -3,13 +3,14 @@ var campgroundsSchema = new mongoose.Schema({
     name: String,
     image: String,
     description: String,
+    date: { type: Date, default: Date.now },
     comments: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'comment'
         }
     ],
-     author: {
+    author: {
         id: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User'

@@ -47,7 +47,7 @@ router.get('/campgrounds/:id/comments/:commentid/edit', commentAuth, (req, res) 
             res.redirect('/campgrounds/' + req.params.id)
         } else {
             console.log(ir)
-            res.render('comments/edit', { editComment: ir, campgroundid: req.params.id })
+            res.render('comments/edit', { editComment: ir, campground_id: req.params.id })
         }
     })
 })

@@ -1,0 +1,88 @@
+<%include ../partials/header%>
+
+<style>
+    @media(max-width: 840px) {
+        #main {
+            position: relative;
+            padding-top: 15%;
+
+        }
+    }
+</style>
+
+<div id="main" style="margin-top:5%" class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-4 col-11">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="row justify-content-center">
+                        <div style="padding: 10px 0" class="column left aligned">
+                            <img src="../User.png" alt="">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <ul style="list-style:none">
+                            <li class="h3"><%=user.name%></li>
+                            <li><i class="icon at large"></i>
+                                <%=user.username%></li>
+                            <li>
+                                <i class="icon large mail"></i>
+                                <%=user.email%>
+                            </li>
+                            <li>
+                                <i class="icon large paper plane outline"></i>
+                                <%=userDetails.length%> posts
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-11">
+            <%userDetails.forEach((value, index, array) => {%>
+            <div class="row no-gutters">
+                <div class="col-11 col-md-4 pd-0 m-auto">
+                    <img class="car-img mt-4" width="100%" height="200px" style="border-radius:5px"
+                        src="<%=value.image%>" alt="" srcset="" />
+                </div>
+                <div class="col pt-2">
+                    <div class="card-body">
+                        <h5 class="car-title">
+                            <%=value.name%>
+                        </h5>
+                        <p class="card-text text-justify">
+                            <%=value.description.substring(0,150)%>...
+
+                        </p>
+                        <p class="card-text text-justify">
+                            <span class="ui fluid">
+                                <i class=" info icon"></i>
+                                <a href="/campgrounds/<%=value._id%>">Click here for more info</a>
+                            </span>
+                        </p>
+                        <p class="card-text">
+                            <small id='<%=value._id%>' class="test-muted " style="font-size:small; font-style:italic">
+                            </small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <script>
+                document.getElementById('<%=value._id%>').innerHTML = '<strong>Posted on</strong> ' + moment(
+                        '<%=value.date%>')
+                    .format('HH:MM, DD MMM YYYY');
+            </script>
+            <%})%>
+        </div>
+    </div>
+</div>
+
+<%if(typeof currentUser !== 'undefined'){%>
+<a href="/campgrounds/add" class="btn btn-danger" id="addbutton">
+    <span style="font-size: 1.25rem;">Add a post</span>
+    <i style="font-size: 1.5rem;" class="icon plus"></i>
+</a>
+<%}%>
+
+
+<%include ../partials/footer%>

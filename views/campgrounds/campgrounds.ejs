@@ -1,70 +1,173 @@
 <%include ../partials/header%>
 
-<div id="floatButton" class="ui menu">
+
+<style>
+    #floatButtonMini {
+        position: absolute;
+        top: 5%;
+        display: none;
+    }
+
+    #floatButtonMini {
+        position: fixed;
+        float: right;
+        top: 7.5%;
+        right: 1%;
+        display: none;
+        z-index: 1;
+    }
+
+    #searchEnable {
+        position: fixed;
+        float: right;
+        top: 7.5%;
+        right: 0;
+        z-index: 1;
+    }
+
+    @media (max-width: 875px) {
+        #floatButton {
+            display: none;
+        }
+
+        #floatButtonMini {
+            transition: all 1s;
+        }
+    }
+</style>
+<div id="floatButton" class="form">
     <form autocomplete="off" action="/search" method="post" class="ui form">
         <div style="margin:0;" class="inline fields">
-            <div style="padding: 0; margin:0" class="field fluid">
-                <input type="text" placeholder="Search a user's posts..." name='user' required>
+            <div style="padding: 0; margin:0;" class="field fluid">
+                <input type="text" placeholder="Search a user's posts..." name="user" required />
             </div>
             <div style="padding: 0; margin:0 ;" class="field fluid">
-                <button class="ui basic button" type="submit"><i class="icon search"></i></button>
+                <button class="ui basic button" type="submit">
+                    <i class="icon search"></i>
+                </button>
             </div>
         </div>
     </form>
 </div>
 
-<div style="margin-top: 5%" class="ui container">
-    <div class="ui two column centered padded relaxed grid">
-        <div class="column">
-            <h1>
-                Welcome to FX Blog
-            </h1>
-            <p style="font-size: 1.2rem" class="ui description">
-                The Community for Tech <i class="icon random"></i>The Tech for Community.
-            </p>
-            <%if(typeof currentUser !== 'undefined'){%>
-            <button class="ui primary button" onclick="location.href='/campgrounds/add'">
-                <i class="icon plus"></i>Add Blog Post
-            </button>
-            <%}else{%>
-            <div class="ui caption">
-                <em>
-                    <i class="icon info circle"></i>
-                    Login to be a part of community and
-                    contribute Tech
-                    knowledge
-                </em>
+<button class="btn" id="searchEnable">
+    <i class="icon search"></i>
+</button c>
+
+<div id="floatButtonMini" class="form">
+    <form autocomplete="off" action="/search" method="post" class="form">
+        <div style="margin:0; max-width:max-content" class="form-row">
+            <div class="col-10">
+                <input class='form-control' type="text" placeholder="Search a user's posts..." name="user" required />
             </div>
-            <%}%>
+            <div class="col-1">
+                <button class="ui basic button d-inline" type="submit">
+                    <i class="icon search"></i>
+                    <div style="padding: 0; margin:0;" class="form-group">
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    $('#searchEnable').on('click', () => {
+        $('#floatButtonMini').css('display', 'block')
+        $('#searchEnable').css('display', 'none')
+    })
+    $(document).click(function () {
+        $('#floatButtonMini').css('display', 'none')
+        $('#searchEnable').css('display', 'block')
+    });
+    $("#floatButtonMini").click(function (e) {
+        e.stopPropagation(); // This is the preferred method.
+        return false; // This should not be used unless you do not want
+    });
+    $("#searchEnable").click(function (e) {
+        e.stopPropagation(); // This is the preferred method.
+        return false; // This should not be used unless you do not want
+    });
+</script>
+
+<style>
+    @media(max-width: 840px) {
+        #main {
+            position: relative;
+            padding-top: 15%;
+
+        }
+    }
+</style>
+
+<div id="main" style="margin:7% 0 1% 0;" class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center font-weight-medium">
+                Welcome to <strong>FX Blog</strong>
+            </h1>
+            <p class="text-center" style="font-size: 1.2rem">
+                The Community for Tech <i class="icon random"></i>The Tech for
+                Community.
+            </p>
         </div>
     </div>
 </div>
 
+<%if(typeof currentUser !== 'undefined'){%>
+<a href="/campgrounds/add" class="btn btn-danger" id="addbutton">
+    <span style="font-size: 1.25rem;">Add a post</span>
+    <i style="font-size: 1.5rem;" class="icon plus"></i>
+</a>
+<%}else{%>
+<div class="caption text-center">
+    <i class="icon info circle h2"></i>
+    <em><small class="text-muted">
+            Login to be a part of community and contribute Tech knowledge
+        </small></em>
+</div>
+<%}%>
 
-<div style="margin-top: 25px;margin-bottom: 5%" class="container ui">
-    <div class="ui centered grid">
-        <%campgrounds.forEach((value, index, array) => {%>
-            <div class="two column row ui segment ">
+<hr id="lastRuleStart" class="mt-5 mb-5 lastRule" />
 
-                <div class="four wide column">
-                    <img style="object-fit: cover; border-radius:5px" style="border-radius: 5px" src=' <%=value.image%>'
-                        alt="" height="150" width='260'> </div>
-                <div class="column left aligned twelve wide">
-                    <div class="ui header">
-                        <%=value.name%>
-                    </div>
-                    <div style="margin-bottom: 30px" class="ui description">
-                        <%=value.description.substring(0,300)%>...
-                    </div>
-
-                    <span class="ui fluid">
-                        <i class=" info icon"></i>
-                        <a href="/campgrounds/<%=value._id%>">Click here for more info</a>
-                    </span>
-                </div>
-
+<%campgrounds.forEach((value, index, array) => {%>
+<div class="container mb-4">
+    <div class="card bg-light border-light">
+        <div class="row no-gutters">
+            <div class="col-11 col-md-4 pd-0 m-auto">
+                <img class="car-img mt-4" width="100%" height="200px" style="border-radius:5px" src="<%=value.image%>"
+                    alt="" srcset="" />
             </div>
-            <%})%>
+            <div class="col">
+                <div class="card-body">
+                    <h5 class="car-title">
+                        <%=value.name%>
+                    </h5>
+                    <p class="card-text text-justify">
+                        <%=value.description.substring(0,150)%>...
+
+                    </p>
+                    <p class="card-text text-justify">
+                        <span class="ui fluid">
+                            <i class=" info icon"></i>
+                            <a href="/campgrounds/<%=value._id%>">Click here for more info</a>
+                        </span>
+                    </p>
+                    <p class="card-text">
+                        <small id='<%=value._id%>' class="test-muted " style="font-size:small; font-style:italic">
+                        </small>
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
-    <%include ../partials/footer%>
+</div>
+<script>
+    console.log(' <%= value.date %>');
+    document.getElementById('<%= value._id %>').innerHTML = '<strong>Posted on</strong> ' + moment(
+            ' <%= value.date %> ')
+        .format(
+            'HH:MM, DD MMM YYYY');
+</script>
+<%})%>
+
+
+<%include ../partials/footer%>
