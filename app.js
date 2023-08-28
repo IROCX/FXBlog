@@ -23,14 +23,13 @@ var campgroundRoutes = require('./routes/campgrounds')
 var indexRoutes = require('./routes/index')
 
 
-// mongoose.connect('mongodb://localhost:27017/myblog', { useUnifiedTopology: true, useNewUrlParser: true })
-mongoose.connect('mongodb+srv://' + process.env.un + ':' + process.env.pw + '@cluster0-ji2ke.azure.mongodb.net/test?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://' + process.env.uname + ':' + process.env.password + '@cluster0-ji2ke.azure.mongodb.net?retryWrites=true&w=majority',
     { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }).then(() => {
         console.log('Connected to DB Successfully')
     }).catch(error => {
-        console.log("Errorx : " + error.message)
+        console.log("Error : " + error.message)
     })
-// mongoose.connect('mongodb://localhost:27017/yelpcamp', { useNewUrlParser: true, useUnifiedTopology: true })
+
 mongoose.set('useFindAndModify', false)
 app.use(bp.urlencoded({ extended: true }))
 app.use(methodOverride("_method"))
