@@ -2,6 +2,7 @@ const ENV = require('dotenv')
 ENV.config()
 
 var moment = require('moment')
+var fs = require('fs')
 
 var express = require('express')
 var app = express()
@@ -58,5 +59,9 @@ app.use(indexRoutes)
 app.use(campgroundRoutes)
 app.use(commentRoutes)
 
-app.listen(process.env.PORT, process.env.IP, () => {
-})
+const options = {
+    key: fs.readFileSync('key.pem'),
+    cert: fs.readFileSync('cert.pem')
+}
+
+https.createServer(options, app).listen(process.env.PORT);
