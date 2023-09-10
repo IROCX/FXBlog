@@ -59,9 +59,4 @@ app.use(indexRoutes)
 app.use(campgroundRoutes)
 app.use(commentRoutes)
 
-const options = {
-    key: fs.readFileSync('key.pem'),
-    cert: fs.readFileSync('cert.pem')
-}
-
-https.createServer(options, app).listen(process.env.PORT);
+app.listen(process.env.PORT);
