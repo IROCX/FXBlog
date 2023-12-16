@@ -1,11 +1,7 @@
 var express = require('express')
 var router = express.Router()
-var Campground = require('../models/campgrounds')
-var Comment = require('../models/comments')
-var User = require('../models/user')
-const campgroundService = require('../services/campgroundService');
 const userService = require('../services/userService');
-const {isLoggedIn, actionAuth} = require('../middlewares/authMiddleware');
+const {isLoggedIn} = require('../middlewares/authMiddleware');
 
 router.get('/userprofile/:id', isLoggedIn, async(req, res) => {
 
