@@ -3,46 +3,36 @@ var router = express.Router()
 var Campground = require('../models/campgrounds')
 var Comment = require('../models/comments')
 var User = require('../models/user')
+const campgroundService = require('../services/campgroundService');
 
+router.get('/campgrounds', async (req, res) => {
 
-router.get('/campgrounds', (req, res) => {
-
-    //GET CAMPGROUNDS FROM DB
-    Campground.find({}, (error, itemReturned) => {
-        if (error)
-            console.log(error)
-        else {
-            res.render('campgrounds/campgrounds', { campgrounds: itemReturned })
-        }
-    })
+    try {
+        const campgrounds = await campgroundService.getAllCampgrounds();
+        res.render('campgrounds/campgrounds', { campgrounds });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Internal Server Error');
+    }
 })
 
+router.post('/campgrounds', isLoggedIn, async (req, res) => {
 
-router.post('/campgrounds', isLoggedIn, (req, res) => {
+    try {
+        const { name, image, description } = req.body;
+        const sanitizedDescription = req.sanitize(description);
+        const author = {
+            id: req.user._id,
+            username: req.user.username
+        };
 
-    var name = req.body.name;
-    var image = req.body.image;
-    req.body.desc = req.sanitize(req.body.desc)
-    var description = req.body.desc;
-    var author = {
-        id: req.user._id,
-        username: req.user.username
+        await campgroundService.createCampground(name, image, sanitizedDescription, author);
+
+        res.redirect('/campgrounds');
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Internal Server Error');
     }
-    var newEntry = {
-        name: name,
-        image: image,
-        description: description,
-        author: author
-    };
-    console.log(newEntry)
-    // CREATE A NEW CAMPGROUND IN DB
-    Campground.create(newEntry, (error, itemReturned) => {
-        if (error) {
-            console.log(error)
-        } else
-            console.log('New Campground Created.')
-    })
-    res.redirect('/campgrounds');
 
 })
 
@@ -50,14 +40,16 @@ router.get('/campgrounds/add', isLoggedIn, (req, res) => {
     res.render('campgrounds/new')
 })
 
-router.get('/campgrounds/:id', (req, res) => {
-    Campground.findById(req.params.id).populate('comments').exec((error, itemReturned) => {
-        if (error) {
-            console.log(error)
-        } else {
-            res.render('campgrounds/show', { foundCampground: itemReturned, SECRET_id: process.env.secret_id })
-        }
-    })
+router.get('/campgrounds/:id', async(req, res) => {
+    try {
+        const campgroundId = req.params.id;
+        const foundCampground = await campgroundService.getCampgroundById(campgroundId);
+
+        res.render('campgrounds/show', { foundCampground, SECRET_id: process.env.secret_id });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Internal Server Error');
+    }
 })
 
 
