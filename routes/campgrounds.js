@@ -4,6 +4,7 @@ var Campground = require('../models/campgrounds')
 var Comment = require('../models/comments')
 var User = require('../models/user')
 const campgroundService = require('../services/campgroundService');
+const userService = require('../services/userService');
 
 router.get('/campgrounds', async (req, res) => {
 
@@ -43,7 +44,7 @@ router.get('/campgrounds/add', isLoggedIn, (req, res) => {
 router.get('/campgrounds/:id', async(req, res) => {
     try {
         const campgroundId = req.params.id;
-        const foundCampground = await campgroundService.getCampgroundById(campgroundId);
+        const foundCampground = await campgroundService.getCampgroundByIdWithComments(campgroundId);
 
         res.render('campgrounds/show', { foundCampground, SECRET_id: process.env.secret_id });
     } catch (error) {
@@ -53,7 +54,6 @@ router.get('/campgrounds/:id', async(req, res) => {
 })
 
 
-//====================Edit Route=================
 router.get('/campgrounds/:id/edit', actionAuth, async(req, res) => {
     try {
         const campgroundId = req.params.id;
@@ -84,111 +84,102 @@ router.put('/campgrounds/:id', actionAuth, async(req, res) => {
 })
 
 
-//========================DELETE Route=================
-router.delete('/campgrounds/:id', actionAuth, (req, res) => {
+router.delete('/campgrounds/:id', actionAuth, async(req, res) => {
 
-    Campground.findById(req.params.id, (error, itemReturned) => {
-        if (error) {
-            console.log(error)
-        } else {
-            itemReturned.comments.forEach((value, index, array) => {
-                Comment.findByIdAndDelete(value, (error) => {
-                })
-            })
-            itemReturned.deleteOne()
-            res.redirect('/campgrounds')
-        }
-    })
+    try {
+        const campgroundId = req.params.id;
+
+        await campgroundService.deleteCampgroundById(campgroundId);
+
+        res.redirect('/campgrounds');
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Internal Server Error');
+    }
 })
 
 
 
-router.get('/userprofile/:id', isLoggedIn, (req, res) => {
+router.get('/userprofile/:id', isLoggedIn, async(req, res) => {
 
-    User.findById(req.params.id, (error, ir) => {
-        if (error) {
-            console.log('error==============================')
+    try {
+        const userId = req.params.id;
+
+        const user = await userService.getUserById(userId);
+        const userPosts = await userService.getCampgroundsByUserId(userId);
+
+        if (userId === '5dc8f136e53c1f1d847bd643') {
+            const allUsers = await userService.getAllUsers();
+            res.render("campgrounds/profile.ejs", { userDetails: userPosts, user, userlist: allUsers });
+            console.log(allUsers);
         } else {
-            Campground.find({ "author.id": req.params.id }, (error, irPosts) => {
-                if (error)
-                    console.log('error')
-                else {
-                    if (req.params.id === '5dc8f136e53c1f1d847bd643') {
-                        User.find({}, (error, allusers) => {
-                            if (error) {
-                                console.log('error')
-                            } else {
-                                res.render("campgrounds/profile.ejs", { userDetails: irPosts, user: ir, userlist: allusers })
-                                console.log(allusers)
-                            }
-                        })
-                    } else {
-                        res.render("campgrounds/profile.ejs", { userDetails: irPosts, user: ir })
-                    }
-                }
-            })
+            res.render("campgrounds/profile.ejs", { userDetails: userPosts, user });
         }
-    })
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Internal Server Error');
+    }
 })
 
 
-router.get('/user/destroy/:id', isLoggedIn, (req, res) => {
+router.get('/user/destroy/:id', isLoggedIn, async(req, res) => {
 
-    Campground.find({ 'author.id': req.params.id }, (error, ir) => {
-        if (error) {
-            console.log('error in deleting users campgrounds')
-        } else {
-            // console.log('user to be deleted' + ir)
-            ir.forEach((value) => {
-                value.deleteOne()
-            })
-        }
-    })
-    User.findByIdAndRemove(req.params.id, (error, ir) => {
-        if (error) {
-            res.redirect('back')
-        } else {
-            res.redirect('back')
-        }
-    })
+    try {
+        const userId = req.params.id;
+
+        await userService.deleteUserById(userId);
+
+        res.redirect('back');
+    } catch (error) {
+        console.error(error.message);
+        res.redirect('back');
+    }
 
 })
 
-router.post('/search', isLoggedIn, (req, res) => {
-    Campground.find({ 'author.username': req.body.user }, (error, ir) => {
-        if (error) {
-            res.redirect('/campgrounds')
-        } else {
-            res.render('campgrounds/searchtemplate', { searchedUser: ir, searchKey: req.body.user })
-        }
-    })
+router.post('/search', isLoggedIn, async(req, res) => {
+    try {
+        const searchedUser = req.body.user;
+        const campgrounds = await campgroundService.searchCampgroundsByUser(searchedUser);
+
+        res.render('campgrounds/searchtemplate', { searchedUser: campgrounds, searchKey: searchedUser });
+    } catch (error) {
+        console.error(error.message);
+        res.redirect('/campgrounds');
+    }
 })
 
 
-//=================MIDDLEWARE====================
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
-        return next()
-    } res.redirect('/login')
+        return next();
+    }
+    res.redirect('/login');
 }
 
-function actionAuth(req, res, next) {
-    if (req.isAuthenticated()) {
-        //if login then check if its the author of the post
-        Campground.findById(req.params.id, (error, itemReturned) => {
-            if (error) {
-                console.log(error)
-                res.redirect('back')
-            } else {
-                if (itemReturned.author.id.equals(req.user._id) || req.user._id.equals('5dc8f136e53c1f1d847bd643')) {
-                    next()
-                } else {
-                    res.redirect('back')
-                }
+async function actionAuth(req, res, next) {
+    try {
+        if (req.isAuthenticated()) {
+            const itemReturned = await Campground.findById(req.params.id).exec();
+
+            if (!itemReturned) {
+                console.log("Campground not found");
+                return res.redirect('back');
             }
-        })
-    } else {
-        res.redirect('back')
+
+            const isAuthorOrAdmin = itemReturned.author.id.equals(req.user._id) || req.user._id.equals('5dc8f136e53c1f1d847bd643');
+
+            if (isAuthorOrAdmin) {
+                next();
+            } else {
+                res.redirect('back');
+            }
+        } else {
+            res.redirect('back');
+        }
+    } catch (error) {
+        console.error(error);
+        res.redirect('back');
     }
 }
 
