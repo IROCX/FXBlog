@@ -1,11 +1,10 @@
 var express = require('express')
 var router = express.Router()
-var Campground = require('../models/campgrounds')
-var Comment = require('../models/comments')
 const {isLoggedIn, commentAuth} = require('../middlewares/authMiddleware');
 const campgroundService = require('../services/campgroundService');
 const commentService = require('../services/commentService');
 
+// New Comment Form
 router.get('/campgrounds/:id/comments/new', isLoggedIn, async(req, res) => {
 
     try {
@@ -18,6 +17,7 @@ router.get('/campgrounds/:id/comments/new', isLoggedIn, async(req, res) => {
     }
 })
 
+// Create Comment
 router.post('/campgrounds/:id/comments', isLoggedIn, async(req, res) => {
 
     try {
@@ -36,6 +36,7 @@ router.post('/campgrounds/:id/comments', isLoggedIn, async(req, res) => {
     }
 })
 
+// Edit Comment Form
 router.get('/campgrounds/:id/comments/:commentid/edit', commentAuth, async(req, res) => {
     try {
         const commentId = req.params.commentid;
@@ -48,6 +49,7 @@ router.get('/campgrounds/:id/comments/:commentid/edit', commentAuth, async(req, 
     }
 })
 
+// Update Comment
 router.put('/campgrounds/:id/comments/:commentid', commentAuth, async(req, res) => {
     try {
         const commentId = req.params.commentid;
@@ -63,6 +65,7 @@ router.put('/campgrounds/:id/comments/:commentid', commentAuth, async(req, res) 
     }
 })
 
+// Delete Comment
 router.delete('/campgrounds/:id/comments/:commentid', commentAuth, async(req, res) => {
     try {
         const commentId = req.params.commentid;
