@@ -58,22 +58,6 @@ async function deleteCampgroundById(id) {
     }
 }
 
-async function getUserById(id) {
-    try {
-        return await User.findById(id).exec();
-    } catch (error) {
-        throw new Error(`Error fetching user with ID ${id} from the database.`);
-    }
-}
-
-async function getCampgroundsByUserId(id) {
-    try {
-        return await Campground.find({ "author.id": id }).exec();
-    } catch (error) {
-        throw new Error(`Error fetching campgrounds for user with ID ${id} from the database.`);
-    }
-}
-
 async function searchCampgroundsByUser(username) {
     try {
         return await Campground.find({ 'author.username': username }).exec();
@@ -82,5 +66,5 @@ async function searchCampgroundsByUser(username) {
     }
 }
 
-module.exports = { getAllCampgrounds, createCampground, getCampgroundByIdWithComments, 
+module.exports = { getAllCampgrounds, createCampground, getCampgroundByIdWithComments,  getCampgroundById,
     updateCampground, deleteCampgroundById, searchCampgroundsByUser };

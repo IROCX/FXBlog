@@ -1,3 +1,4 @@
+var Comment = require('../models/comments')
 
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
@@ -32,5 +33,33 @@ async function actionAuth(req, res, next) {
     }
 }
 
+const commentAuth = async (req, res, next) => {
+    try {
+        if (req.isAuthenticated()) {
+            const commentId = req.params.commentid;
+            const comment = await Comment.findById(commentId);
 
-module.exports = {  isLoggedIn, actionAuth  };
+            if (!comment) {
+                console.log("Comment not found");
+                return res.redirect('back');
+            }
+
+            const isAuthorOrAdmin = comment.author.id.equals(req.user._id) || req.user._id.equals('5dc8f136e53c1f1d847bd643');
+
+            if (isAuthorOrAdmin) {
+                next();
+            } else {
+                res.redirect('back');
+            }
+        } else {
+            console.log('Please log in...');
+            res.redirect('back');
+        }
+    } catch (error) {
+        console.error(error);
+        res.redirect('back');
+    }
+};
+
+
+module.exports = {  isLoggedIn, actionAuth, commentAuth  };
