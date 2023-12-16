@@ -1,10 +1,8 @@
 var express = require('express')
 var router = express.Router()
-var Campground = require('../models/campgrounds')
-var Comment = require('../models/comments')
-var User = require('../models/user')
 const campgroundService = require('../services/campgroundService');
-const userService = require('../services/userService');
+const {isLoggedIn, actionAuth} = require('../middlewares/authMiddleware');
+
 
 router.get('/campgrounds', async (req, res) => {
 
@@ -53,7 +51,6 @@ router.get('/campgrounds/:id', async(req, res) => {
     }
 })
 
-
 router.get('/campgrounds/:id/edit', actionAuth, async(req, res) => {
     try {
         const campgroundId = req.params.id;
@@ -83,7 +80,6 @@ router.put('/campgrounds/:id', actionAuth, async(req, res) => {
     }
 })
 
-
 router.delete('/campgrounds/:id', actionAuth, async(req, res) => {
 
     try {
@@ -98,45 +94,6 @@ router.delete('/campgrounds/:id', actionAuth, async(req, res) => {
     }
 })
 
-
-
-router.get('/userprofile/:id', isLoggedIn, async(req, res) => {
-
-    try {
-        const userId = req.params.id;
-
-        const user = await userService.getUserById(userId);
-        const userPosts = await userService.getCampgroundsByUserId(userId);
-
-        if (userId === '5dc8f136e53c1f1d847bd643') {
-            const allUsers = await userService.getAllUsers();
-            res.render("campgrounds/profile.ejs", { userDetails: userPosts, user, userlist: allUsers });
-            console.log(allUsers);
-        } else {
-            res.render("campgrounds/profile.ejs", { userDetails: userPosts, user });
-        }
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).send('Internal Server Error');
-    }
-})
-
-
-router.get('/user/destroy/:id', isLoggedIn, async(req, res) => {
-
-    try {
-        const userId = req.params.id;
-
-        await userService.deleteUserById(userId);
-
-        res.redirect('back');
-    } catch (error) {
-        console.error(error.message);
-        res.redirect('back');
-    }
-
-})
-
 router.post('/search', isLoggedIn, async(req, res) => {
     try {
         const searchedUser = req.body.user;
@@ -148,40 +105,5 @@ router.post('/search', isLoggedIn, async(req, res) => {
         res.redirect('/campgrounds');
     }
 })
-
-
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect('/login');
-}
-
-async function actionAuth(req, res, next) {
-    try {
-        if (req.isAuthenticated()) {
-            const itemReturned = await Campground.findById(req.params.id).exec();
-
-            if (!itemReturned) {
-                console.log("Campground not found");
-                return res.redirect('back');
-            }
-
-            const isAuthorOrAdmin = itemReturned.author.id.equals(req.user._id) || req.user._id.equals('5dc8f136e53c1f1d847bd643');
-
-            if (isAuthorOrAdmin) {
-                next();
-            } else {
-                res.redirect('back');
-            }
-        } else {
-            res.redirect('back');
-        }
-    } catch (error) {
-        console.error(error);
-        res.redirect('back');
-    }
-}
-
 
 module.exports = router
