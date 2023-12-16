@@ -54,22 +54,33 @@ router.get('/campgrounds/:id', async(req, res) => {
 
 
 //====================Edit Route=================
-router.get('/campgrounds/:id/edit', actionAuth, (req, res) => {
-    Campground.findById(req.params.id, (error, itemReturned) => {
-        res.render('campgrounds/edit', { editCampground: itemReturned })
-    })
+router.get('/campgrounds/:id/edit', actionAuth, async(req, res) => {
+    try {
+        const campgroundId = req.params.id;
+        const editCampground = await campgroundService.getCampgroundById(campgroundId);
+
+        res.render('campgrounds/edit', { editCampground });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Internal Server Error');
+    }
 })
 
-router.put('/campgrounds/:id', actionAuth, (req, res) => {
-    // res.send('update campground route')
-    console.log(req.body.updateData.desc)
-    // req.body.updateData.desc = req.sanitize(req.body.updateData.desc)
-    Campground.findByIdAndUpdate(req.params.id, req.body.updateData, (error, itemReturned) => {
-        if (error) {
-            console.log('Errrrrrooooooooooooooooooooooooooooooooooooooor')
-        }
-        res.redirect('/campgrounds/' + req.params.id)
-    })
+router.put('/campgrounds/:id', actionAuth, async(req, res) => {
+    try {
+        const campgroundId = req.params.id;
+        const updateData = req.body.updateData;
+
+        // Uncomment the line below if you want to sanitize the description
+        updateData.desc = req.sanitize(updateData.desc);
+
+        const updatedCampground = await campgroundService.updateCampground(campgroundId, updateData);
+
+        res.redirect(`/campgrounds/${campgroundId}`);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Internal Server Error');
+    }
 })
 
 
