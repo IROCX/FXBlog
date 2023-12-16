@@ -1,62 +1,49 @@
-const ENV = require('dotenv')
-ENV.config()
+const express = require('express');
+const bodyParser = require('body-parser');
+const expressSanitizer = require('express-sanitizer');
+const methodOverride = require('method-override');
+const session = require('express-session');
+const dotenv = require('dotenv');
+dotenv.config();
 
-var moment = require('moment')
-var fs = require('fs')
+const { connectDB } = require('./db');
+const { setPassport } = require('./passport');
+const { setLocals } = require('./middlewares/sessionMiddleware');
+const { commentRoutes, campgroundRoutes, homeRoutes, userRoutes } = require('./routes');
 
-var express = require('express')
-var app = express()
-app.use(express.static('static'))
-app.set('view engine', 'ejs')
+const app = express();
+const PORT = process.env.PORT || 3000;
 
+// Connect to MongoDB
+connectDB();
 
-var mongoose = require('mongoose')
-var bp = require('body-parser')
-var expressSanitizer = require('express-sanitizer')
-var methodOverride = require('method-override')
+// Set up middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(methodOverride("_method"));
+app.use(expressSanitizer());
 
-var passport = require('passport')
-var localStrategy = require('passport-local')
-var User = require('./models/user.js')
-
-var commentRoutes = require('./routes/comments')
-var campgroundRoutes = require('./routes/campgrounds')
-var indexRoutes = require('./routes/index')
-
-
-mongoose.connect('mongodb+srv://' + process.env.uname + ':' + process.env.password + '@cluster0-ji2ke.azure.mongodb.net?retryWrites=true&w=majority',
-    { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }).then(() => {
-        console.log('Connected to DB Successfully')
-    }).catch(error => {
-        console.log("Error : " + error.message)
-    })
-
-mongoose.set('useFindAndModify', false)
-app.use(bp.urlencoded({ extended: true }))
-app.use(methodOverride("_method"))
-
-app.use(expressSanitizer())
-// seed()
-
-//====================PASSPORT CONFIG===============================
-app.use(require('express-session')({
-    secret: 'IROC',
+// Set up session and passport
+app.use(session({
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false
-}))
-app.use(passport.initialize())
-app.use(passport.session())
-passport.use(new localStrategy(User.authenticate()))
-passport.serializeUser(User.serializeUser())
-passport.deserializeUser(User.deserializeUser())
+}));
+setPassport(app);
 
-app.use((req, res, next) => {
-    res.locals.currentUser = req.user
-    next()
-})
+// Set locals
+app.use(setLocals);
 
-app.use(indexRoutes)
-app.use(campgroundRoutes)
-app.use(commentRoutes)
+// Set up view engine
+app.use(express.static('static'));
+app.set('view engine', 'ejs');
 
-app.listen(process.env.PORT);
+// Use routes
+app.use(homeRoutes);
+app.use(campgroundRoutes);
+app.use(commentRoutes);
+app.use(userRoutes);
+
+// Start the server
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
