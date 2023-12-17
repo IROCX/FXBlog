@@ -10,6 +10,10 @@ const { connectDB } = require('./db');
 const { setPassport } = require('./passport');
 const { setLocals } = require('./middlewares/sessionMiddleware');
 const { commentRoutes, campgroundRoutes, homeRoutes, userRoutes } = require('./routes');
+const { errorHandlingMiddleware } = require('./middlewares/errorHandlingMiddleware');
+
+const flash = require('express-flash');
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -32,6 +36,10 @@ setPassport(app);
 
 // Set locals
 app.use(setLocals);
+
+// set error handling middleware
+app.use(flash());
+app.use(errorHandlingMiddleware);
 
 // Set up view engine
 app.use(express.static('static'));

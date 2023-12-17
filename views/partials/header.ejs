@@ -23,11 +23,37 @@
 
 
     <style>
+        /* Styles for the Floating Error Flash */
+        .flash-container {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10000;
+          }
+      
+          .flash-message {
+            background-color: #e74c3c;
+            color: #fff;
+            padding: 15px 30px;
+            border-radius: 8px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.4s, transform 0.4s;
+          }
+      
+          .flash-message.show {
+            opacity: 1;
+            transform: translateY(0);
+          }
+      
 
-        .body-blog{
-            text-align: justify; width: 500px;
+        .body-blog {
+            text-align: justify;
+            width: 500px;
         }
-        
+
         #floatButton {
             position: fixed;
             float: right;
@@ -128,23 +154,47 @@
 
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <%if(typeof currentUser === 'undefined'){%>
-                    <a href="/login" class="nav-link">Login</a>
+                    <%if(typeof currentUser==='undefined' ){%>
+                        <a href="/login" class="nav-link">Login</a>
                 </li>
                 <li class="nav-item">
                     <a href="/register" class="nav-link">Sign Up</a>
                 </li>
                 <%}else{%>
-                <li class="nav-item mt-7">
-                    <a style="color:rgb(191, 191, 191);" href="/userprofile/<%=currentUser.id%>" class="nav-link"> <i
-                            class="icon large user outline"></i>
-                        <%=currentUser.name%></a>
-                </li>
-                <li class="nav-item">
-                    <a href="/logout" class="nav-link">Logout</a>
-                </li>
-                <%}%>
-        </ul>
+                    <li class="nav-item mt-7">
+                        <a style="color:rgb(191, 191, 191);" href="/userprofile/<%=currentUser.id%>" class="nav-link">
+                            <i class="icon large user outline"></i>
+                            <%=currentUser.name%>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/logout" class="nav-link">Logout</a>
+                    </li>
+                    <%}%>
+            </ul>
         </div>
 
+
     </div>
+
+    <div class="flash-container">
+        <% if (messages.error) { %>
+            <div class="flash-message error">
+                <%= messages.error[0] %>
+            </div>
+            <% } %>
+    </div>
+
+    <!-- Inline JavaScript for Flash Message Animation -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Show flash messages with animation
+            const flashMessage = document.querySelector('.flash-message');
+            if (flashMessage) {
+                flashMessage.classList.add('show');
+                setTimeout(() => {
+                  flashMessage.classList.remove('show');
+                }, 5000); // Flash message will disappear after 5 seconds
+              }
+        });
+    </script>

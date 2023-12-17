@@ -1,84 +1,92 @@
 <%include ../partials/header%>
-<style>
-    #holder {
-        margin-top: 5%;
-        max-width: 50%;
-    }
-
-    #holder input {
-
-        margin: 0 5%;
-        transition: margin 0.2s ease-in-out;
-    }
-
-    #holder input:hover {
-        margin: 0 1%;
-    }
-
-    @media (max-width:823px) {
-        #register {
-            margin-top: 25%;
-            margin-bottom: 10%;
-            font-size: 2.75rem;
-            text-align: center;
-            max-width: 100%;
-        }
-
+    <style>
         #holder {
             margin-top: 5%;
-            max-width: 70%;
-            overflow-y: auto;
+            max-width: 50%;
         }
-    }
-</style>
-<div class="container" id="holder">
-    <div class="row">
-        <div class="col">
-            <div id="register" class="h3"> <i class="user plus icon"></i> Register</div>
-        </div>
-    </div>
-    <form action="./register" method="POST">
-        <div class="row form-group">
-            <label for=""> <i class="user outline icon"></i> Username</label>
-            <input autocomplete='off' class="form-control" type="text" placeholder="James@7" name="username">
-        </div>
 
-        <div class="row form-group">
-            <label for=""><i class="edit outline icon"></i> Name</label>
-            <input autocomplete='off' class="form-control" type="text" placeholder="James Cameron" name='name'>
-        </div>
-        <div class="row form-group">
-            <label for=""><i class="phone icon"></i> Mobile Number</label>
-            <input autocomplete='off' class="form-control" type="text" placeholder="95xxxxxx37" name="contact">
-        </div>
-        <div class="row form-group">
-            <label for=""> <i class="at icon"></i> E-mail</label>
-            <input autocomplete='off' class="form-control" type="text" placeholder="jcameron@gmil.com" name="email">
-        </div>
-        <div class="row form-group">
-            <label for=""> <i class="keyboard outline icon"></i> Password</label>
-            <input autocomplete='off' class="form-control" type="password" placeholder="●●●●●●●●●●●" name="password">
-        </div>
-        <div class="row form-group">
-            <label for=""> <i class="barcode icon"></i> Confirm Password</label>
-            <input autocomplete='off' class="form-control" type="password" placeholder="●●●●●●●●●●●" name="cpassword">
-        </div>
+        #holder input {
+
+            margin: 0 5%;
+            transition: margin 0.2s ease-in-out;
+        }
+
+        #holder input:hover {
+            margin: 0 1%;
+        }
+
+        @media (max-width:823px) {
+            #register {
+                margin-top: 25%;
+                margin-bottom: 10%;
+                font-size: 2.75rem;
+                text-align: center;
+                max-width: 100%;
+            }
+
+            #holder {
+                margin-top: 5%;
+                max-width: 70%;
+                overflow-y: auto;
+            }
+        }
+    </style>
+    
+    <div class="container" id="holder">
         <div class="row">
-            <div class="col-1">
-            </div>
-            <div class="col-10">
-                <button type="submit" class="ui button basic blue fluid"><i class="check icon"></i>
-                    Register</button>
-            </div>
-            <div class="col-1">
+            <div class="col">
+                <div id="register" class="h3"> <i class="user plus icon"></i> Register</div>
             </div>
         </div>
+        <form action="./register" method="POST">
+            <div class="row form-group">
+                <label for="username"> <i class="user outline icon"></i> Username</label>
+                <input value="<%= previousValues.username %>" autocomplete='off' class="form-control" type="text" placeholder="James@7" name="username"
+                    id="username" required>
+            </div>
 
-    </form>
-</div>
-</div>
-</div>
+            <div class="row form-group">
+                <label for="name"><i class="edit outline icon"></i> Name</label>
+                <input value="<%= previousValues.name %>" autocomplete='off' class="form-control" type="text" placeholder="James Cameron" name='name'
+                    id="name" required>
+            </div>
+            <div class="row form-group">
+                <label for="contact"><i class="phone icon"></i> Mobile Number</label>
+                <input value="<%= previousValues.contact %>" autocomplete='off' class="form-control" type="text" placeholder="95xxxxxx37" name="contact"
+                    id="contact" required pattern="[0-9]{10}">
+                <small class="form-text text-muted">Please enter a valid 10-digit mobile number.</small>
+            </div>
+            <div class="row form-group">
+                <label for="email"> <i class="at icon"></i> E-mail</label>
+                <input value="<%= previousValues.email %>" autocomplete='off' class="form-control" type="email" placeholder="jcameron@gmail.com"
+                    name="email" id="email" required>
+            </div>
+            <div class="row form-group">
+                <label for="password"> <i class="keyboard outline icon"></i> Password</label>
+                <input value="<%= previousValues.password %>" autocomplete='off' class="form-control" type="password" placeholder="●●●●●●●●●●●" name="password"
+                    id="password" required>
+            </div>
+            <div class="row form-group">
+                <label for="cpassword"> <i class="barcode icon"></i> Confirm Password</label>
+                <input value="<%= previousValues.cpassword %>" autocomplete='off' class="form-control" type="password" placeholder="●●●●●●●●●●●"
+                    name="cpassword" id="cpassword" required>
+            </div>
+            <div class="row">
+                <div class="col-1">
+                </div>
+                <div class="col-10">
+                    <button type="submit" class="ui button basic blue fluid"><i class="check icon"></i>
+                        Register</button>
+                </div>
+                <div class="col-1">
+                </div>
+            </div>
+        </form>
+
+    </div>
+    </div>
+    </div>
 
 
 
-<%include ../partials/footer%>
+    <%include ../partials/footer%>

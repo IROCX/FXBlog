@@ -25,12 +25,7 @@ const userSchema = new mongoose.Schema(
       trim: true,
       lowercase: true,
       match: [/^\S+@\S+\.\S+$/, 'Please enter a valid email address.'],
-    },
-    password: {
-      type: String,
-      required: true,
-      minlength: [8, 'Password must be at least 8 characters long.'],
-    },
+    }
   },
   {
     timestamps: true, // Adds createdAt and updatedAt fields

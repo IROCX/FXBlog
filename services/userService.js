@@ -41,4 +41,14 @@ async function deleteUserById(id) {
     }
 }
 
-module.exports = {  getUserById, getCampgroundsByUserId, getAllUsers, deleteUserById  };
+async function registerUser(username, name, contact, email, password) {
+    try {
+        const newUser = new User({ username, name, contact, email, password });
+        await User.register(newUser, password);
+        return newUser;
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports = {  getUserById, getCampgroundsByUserId, getAllUsers, deleteUserById, registerUser  };
