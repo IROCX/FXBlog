@@ -21,11 +21,25 @@ router.get('/login', (req, res) => {
 })
 
 
-router.post('/login', passport.authenticate('local',
-    {
-        successRedirect: '/campgrounds',
-        failureRedirect: '/login'
-    }), (req, res) => { })
+router.post('/login',
+    (req, res, next) => {
+        passport.authenticate('local', (err, user, info) => {
+            if (err) {
+                return next(err);
+            }
+            if (!user) {
+                req.flash('error', 'Invalid username or password');
+                return res.redirect('/login');
+            }
+            req.logIn(user, (err) => {
+                if (err) {
+                    return next(err);
+                }
+                req.flash('success', 'Logged in successfully!');
+                return res.redirect('/campgrounds');
+            });
+        })(req, res, next);
+    })
 
 router.get('/logout', (req, res) => {
     req.logOut()
@@ -33,7 +47,7 @@ router.get('/logout', (req, res) => {
 })
 
 router.get('/register', (req, res) => {
-    res.render('forms/register', { previousValues: {}})
+    res.render('forms/register', { previousValues: {} })
 })
 
 router.post('/register', async (req, res) => {
@@ -41,7 +55,7 @@ router.post('/register', async (req, res) => {
 
     // Validate user input
     const validation = validateRegistrationInput(username, name, contact, email, password, cpassword);
-    
+
     if (!validation.isValid) {
         const error = Object.keys(validation.errors)[0]
         req.flash('error', validation.errors[error]);
@@ -54,6 +68,7 @@ router.post('/register', async (req, res) => {
 
         // Authenticate user
         passport.authenticate('local')(req, res, () => {
+            req.flash('success', `Sign up successful! Welcome to FX Blog`);
             res.redirect('/campgrounds');
         });
     } catch (error) {

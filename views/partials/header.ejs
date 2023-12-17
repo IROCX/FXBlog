@@ -30,24 +30,32 @@
             left: 50%;
             transform: translateX(-50%);
             z-index: 10000;
-          }
-      
-          .flash-message {
+        }
+
+        .success{
+            background-color: #2b8448;
+            color: #fff;
+        }
+
+        .error{
             background-color: #e74c3c;
             color: #fff;
+        }
+
+        .flash-message {
             padding: 15px 30px;
             border-radius: 8px;
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
             opacity: 0;
-            transform: translateY(-20px);
+            transform: translateY(20px);
             transition: opacity 0.4s, transform 0.4s;
-          }
-      
-          .flash-message.show {
+        }
+
+        .flash-message.show {
             opacity: 1;
             transform: translateY(0);
-          }
-      
+        }
+
 
         .body-blog {
             text-align: justify;
@@ -183,6 +191,11 @@
                 <%= messages.error[0] %>
             </div>
             <% } %>
+                <% if (messages.success) { %>
+                    <div class="flash-message success">
+                        <%= messages.success[0] %>
+                    </div>
+                    <% } %>
     </div>
 
     <!-- Inline JavaScript for Flash Message Animation -->
@@ -193,8 +206,8 @@
             if (flashMessage) {
                 flashMessage.classList.add('show');
                 setTimeout(() => {
-                  flashMessage.classList.remove('show');
+                    flashMessage.classList.remove('show');
                 }, 5000); // Flash message will disappear after 5 seconds
-              }
+            }
         });
     </script>

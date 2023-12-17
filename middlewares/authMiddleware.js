@@ -1,4 +1,5 @@
 var Comment = require('../models/comments')
+var Campground = require('../models/campgrounds')
 
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
@@ -9,26 +10,23 @@ function isLoggedIn(req, res, next) {
 
 async function actionAuth(req, res, next) {
     try {
-        if (req.isAuthenticated()) {
-            const itemReturned = await Campground.findById(req.params.id).exec();
-
-            if (!itemReturned) {
-                console.log("Campground not found");
-                return res.redirect('back');
-            }
-
-            const isAuthorOrAdmin = itemReturned.author.id.equals(req.user._id) || req.user._id.equals('5dc8f136e53c1f1d847bd643');
-
-            if (isAuthorOrAdmin) {
-                next();
-            } else {
-                res.redirect('back');
-            }
-        } else {
+            if (!req.isAuthenticated())
             res.redirect('back');
+
+        const itemReturned = await Campground.findById(req.params.id).exec();
+
+        if (!itemReturned) {
+            console.log("Campground not found");
+            return res.redirect('back');
         }
+
+        const isAuthorOrAdmin = itemReturned.author.id.equals(req.user._id) || req.user._id.equals('5dc8f136e53c1f1d847bd643');
+
+        if (!isAuthorOrAdmin)
+            return res.redirect('back');
+        next();
+
     } catch (error) {
-        console.error(error);
         res.redirect('back');
     }
 }
@@ -62,4 +60,4 @@ const commentAuth = async (req, res, next) => {
 };
 
 
-module.exports = {  isLoggedIn, actionAuth, commentAuth  };
+module.exports = { isLoggedIn, actionAuth, commentAuth };
