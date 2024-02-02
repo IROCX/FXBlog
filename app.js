@@ -9,11 +9,18 @@ dotenv.config();
 const { connectDB } = require('./db');
 const { setPassport } = require('./passport');
 const { setLocals } = require('./middlewares/sessionMiddleware');
-const { commentRoutes, campgroundRoutes, homeRoutes, userRoutes } = require('./routes');
-const { errorHandlingMiddleware } = require('./middlewares/errorHandlingMiddleware');
-
+const {
+	commentRoutes,
+	campgroundRoutes,
+	homeRoutes,
+	userRoutes,
+} = require('./routes');
+const {
+	errorHandlingMiddleware,
+} = require('./middlewares/errorHandlingMiddleware');
+const morgan = require('morgan');
 const flash = require('express-flash');
-
+const { loggerMiddleware } = require('./middlewares/loggerMiddleware');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -23,15 +30,17 @@ connectDB();
 
 // Set up middleware
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(methodOverride("_method"));
+app.use(methodOverride('_method'));
 app.use(expressSanitizer());
 
 // Set up session and passport
-app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false
-}));
+app.use(
+	session({
+		secret: process.env.SESSION_SECRET,
+		resave: false,
+		saveUninitialized: false,
+	})
+);
 setPassport(app);
 
 // Set locals
@@ -40,6 +49,10 @@ app.use(setLocals);
 // set error handling middleware
 app.use(flash());
 app.use(errorHandlingMiddleware);
+
+// Morgan middleware for logging
+app.use(morgan('dev'));
+app.use(loggerMiddleware);
 
 // Set up view engine
 app.use(express.static('static'));
@@ -53,5 +66,5 @@ app.use(userRoutes);
 
 // Start the server
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+	console.log(`Server is running on port ${PORT}`);
 });

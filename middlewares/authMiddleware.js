@@ -1,63 +1,59 @@
-var Comment = require('../models/comments')
-var Campground = require('../models/campgrounds')
+var Comment = require('../models/comments');
+var Campground = require('../models/campgrounds');
 
 function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect('/login');
+	if (req.isAuthenticated()) {
+		return next();
+	}
+	res.redirect('/login');
 }
 
 async function actionAuth(req, res, next) {
-    try {
-            if (!req.isAuthenticated())
-            res.redirect('back');
+	try {
+		if (!req.isAuthenticated()) res.redirect('back');
 
-        const itemReturned = await Campground.findById(req.params.id).exec();
+		const itemReturned = await Campground.findById(req.params.id).exec();
 
-        if (!itemReturned) {
-            console.log("Campground not found");
-            return res.redirect('back');
-        }
+		if (!itemReturned) {
+			return res.redirect('back');
+		}
 
-        const isAuthorOrAdmin = itemReturned.author.id.equals(req.user._id) || req.user._id.equals('5dc8f136e53c1f1d847bd643');
+		const isAuthorOrAdmin =
+			itemReturned.author.id.equals(req.user._id) ||
+			req.user._id.equals('5dc8f136e53c1f1d847bd643');
 
-        if (!isAuthorOrAdmin)
-            return res.redirect('back');
-        next();
-
-    } catch (error) {
-        res.redirect('back');
-    }
+		if (!isAuthorOrAdmin) return res.redirect('back');
+		next();
+	} catch (error) {
+		res.redirect('back');
+	}
 }
 
 const commentAuth = async (req, res, next) => {
-    try {
-        if (req.isAuthenticated()) {
-            const commentId = req.params.commentid;
-            const comment = await Comment.findById(commentId);
+	try {
+		if (req.isAuthenticated()) {
+			const commentId = req.params.commentid;
+			const comment = await Comment.findById(commentId);
 
-            if (!comment) {
-                console.log("Comment not found");
-                return res.redirect('back');
-            }
+			if (!comment) {
+				return res.redirect('back');
+			}
 
-            const isAuthorOrAdmin = comment.author.id.equals(req.user._id) || req.user._id.equals('5dc8f136e53c1f1d847bd643');
+			const isAuthorOrAdmin =
+				comment.author.id.equals(req.user._id) ||
+				req.user._id.equals('5dc8f136e53c1f1d847bd643');
 
-            if (isAuthorOrAdmin) {
-                next();
-            } else {
-                res.redirect('back');
-            }
-        } else {
-            console.log('Please log in...');
-            res.redirect('back');
-        }
-    } catch (error) {
-        console.error(error);
-        res.redirect('back');
-    }
+			if (isAuthorOrAdmin) {
+				next();
+			} else {
+				res.redirect('back');
+			}
+		} else {
+			res.redirect('back');
+		}
+	} catch (error) {
+		res.redirect('back');
+	}
 };
-
 
 module.exports = { isLoggedIn, actionAuth, commentAuth };

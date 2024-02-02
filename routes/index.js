@@ -3,4 +3,4 @@ const campgroundRoutes = require('./campgrounds');
 const homeRoutes = require('./home');
 const userRoutes = require('./users');
 
-module.exports = {commentRoutes, campgroundRoutes, homeRoutes, userRoutes};
+module.exports = { commentRoutes, campgroundRoutes, homeRoutes, userRoutes };

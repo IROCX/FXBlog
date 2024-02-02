@@ -7,7 +7,7 @@
     "node": "18.x"
   },
   "scripts": {
-    "start": "node app.js",
+    "start": "tsc && node app.js",
     "dev": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,17 +17,26 @@
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
     "ejs": "^2.7.1",
-    "express": "^4.17.1",
+    "express": "^4.18.2",
     "express-flash": "^0.0.2",
     "express-messages": "^1.0.1",
+    "express-pino-logger": "^7.0.0",
     "express-sanitizer": "^1.0.5",
     "express-session": "^1.17.0",
     "method-override": "^3.0.0",
     "moment": "^2.24.0",
-    "mongoose": "^5.7.7",
-    "nodemon": "^3.0.1",
+    "mongoose": "^5.13.21",
+    "morgan": "^1.10.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "passport-local-mongoose": "^5.0.1"
+    "passport-local-mongoose": "^5.0.1",
+    "pino": "^8.17.1",
+    "pino-mongodb": "^4.3.0",
+    "pino-multi-stream": "^6.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0",
+    "nodemon": "^3.0.2",
+    "typescript": "^5.3.3"
   }
 }
