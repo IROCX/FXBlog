@@ -99,7 +99,7 @@ router.get("/userprofile/:id", isLoggedIn, (req, res) => {
     if (error) {
       console.log("error==============================");
     } else {
-      Campground.find({ "author.id": req.params.id }, (error, irPosts) => {
+      Post.find({ "author.id": req.params.id }, (error, irPosts) => {
         if (error) console.log("error");
         else {
           if (req.params.id === "5dc8f136e53c1f1d847bd643") {
@@ -107,7 +107,7 @@ router.get("/userprofile/:id", isLoggedIn, (req, res) => {
               if (error) {
                 console.log("error");
               } else {
-                res.render("campgrounds/profile.ejs", {
+                res.render("posts/profile.ejs", {
                   userDetails: irPosts,
                   user: ir,
                   userlist: allusers,
@@ -116,7 +116,7 @@ router.get("/userprofile/:id", isLoggedIn, (req, res) => {
               }
             });
           } else {
-            res.render("campgrounds/profile.ejs", {
+            res.render("posts/profile.ejs", {
               userDetails: irPosts,
               user: ir,
             });
@@ -128,9 +128,9 @@ router.get("/userprofile/:id", isLoggedIn, (req, res) => {
 });
 
 router.get("/user/destroy/:id", isLoggedIn, (req, res) => {
-  Campground.find({ "author.id": req.params.id }, (error, ir) => {
+  Post.find({ "author.id": req.params.id }, (error, ir) => {
     if (error) {
-      console.log("error in deleting users campgrounds");
+      console.log("error in deleting user's posts");
     } else {
       // console.log('user to be deleted' + ir)
       ir.forEach((value) => {
@@ -148,11 +148,11 @@ router.get("/user/destroy/:id", isLoggedIn, (req, res) => {
 });
 
 router.post("/search", isLoggedIn, (req, res) => {
-  Campground.find({ "author.username": req.body.user }, (error, ir) => {
+  Post.find({ "author.username": req.body.user }, (error, ir) => {
     if (error) {
-      res.redirect("/campgrounds");
+      res.redirect("/posts");
     } else {
-      res.render("campgrounds/searchtemplate", {
+      res.render("posts/searchtemplate", {
         searchedUser: ir,
         searchKey: req.body.user,
       });
@@ -171,7 +171,7 @@ function isLoggedIn(req, res, next) {
 function actionAuth(req, res, next) {
   if (req.isAuthenticated()) {
     //if login then check if its the author of the post
-    Campground.findById(req.params.id, (error, itemReturned) => {
+    Post.findById(req.params.id, (error, itemReturned) => {
       if (error) {
         console.log(error);
         res.redirect("back");

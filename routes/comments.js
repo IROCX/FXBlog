@@ -70,7 +70,7 @@ router.put("/posts/:id/comments/:commentid", commentAuth, (req, res) => {
 
 router.delete("/posts/:id/comments/:commentid", commentAuth, (req, res) => {
   Comment.findByIdAndDelete(req.params.commentid, (error) => {
-    res.redirect("/campgrounds/" + req.params.id);
+    res.redirect("/posts/" + req.params.id);
   });
 });
 
