@@ -24,10 +24,10 @@
         max-width: 150px;
     }
 </style>
-<%if(typeof currentUser !=='undefined' && (foundCampground.author.id.equals(currentUser._id)||(currentUser.username === SECRET_id))){%>
+<%if(typeof currentUser !=='undefined' && (foundPost.author.id.equals(currentUser._id)||(currentUser.username === SECRET_id))){%>
 <div class="container" id="editor">
-    <form action="/campgrounds/<%=foundCampground._id%>?_method=DELETE" method="post">
-        <a href="/campgrounds/<%=foundCampground._id%>/edit" class="wrapperButton btn btn-info p-2"><i
+    <form action="/posts/<%=foundPost._id%>?_method=DELETE" method="post">
+        <a href="/posts/<%=foundPost._id%>/edit" class="wrapperButton btn btn-info p-2"><i
                 class="icon edit"></i><span>Edit</span></a>
         <button type="submit" class=" wrapperButton btn btn-danger p-2"><i
                 class=" times circle outline icon"></i><span>Delete</span></button>
@@ -35,12 +35,12 @@
 </div>
 <%}%>
 
-<div id="header" class="row justify-content-center">
+<div id="header" class="col justify-content-center">
     <div class="col-12 text-center">
-        <div class="h3"><%=foundCampground.name%></div>
+        <div class="h3"><%=foundPost.name%></div>
 <div>
     <small class='text-muted'>Posted By -
-        <strong><%=foundCampground.author.username%><div class='text-muted'>
+        <strong><%=foundPost.author.username%><div class='text-muted'>
         </strong>
     </small>
 </div>
@@ -80,9 +80,9 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12 col-11 pt-4 pb-4">
-            <img class="card-img" src="<%=foundCampground.image%>" alt="">
+            <img class="card-img" src="<%=foundPost.image%>" alt="">
             <p style="white-space: pre-wrap;" style="text-align: justify" class="text-justify lead">
-                <%-foundCampground.description%>
+                <%-foundPost.description%>
             </p>
         </div>
     </div>
@@ -91,7 +91,7 @@
             <div class="commentButtons row h4 justify-content-center">
                 <i class="icon comments"></i>Comments
             </div>
-            <%foundCampground.comments.forEach((value, index, array) => {%>
+            <%foundPost.comments.forEach((value, index, array) => {%>
             <hr>
             <div class="container-fluid">
                 <div class="row">
@@ -109,11 +109,11 @@
                     <div class="row no-gutters">
                         <div class="col-12">
                             <form class="form text-right"
-                                action="/campgrounds/<%=foundCampground._id%>/comments/<%=value._id%>?_method=DELETE"
+                                action="/posts/<%=foundPost._id%>/comments/<%=value._id%>?_method=DELETE"
                                 method="post">
                                 <div class="btn-group" role="group">
                                     <button type="button"
-                                        onclick='location.href="/campgrounds/<%=foundCampground._id%>/comments/<%=value._id%>/edit"'
+                                        onclick='location.href="/posts/<%=foundPost._id%>/comments/<%=value._id%>/edit"'
                                         class="btn btn-outline-secondary btn-sm">Edit</button class="wrapperButton">
                                         <button type="submit" class="btn btn-outline-secondary btn-sm"
                                             value="Delete">Delete</button>
@@ -127,12 +127,12 @@
                 <%})%>
                     <div class="commentButtons row justify-content-center">
                         <div class="btn-group">
-                            <a href="/campgrounds/<%=foundCampground._id%>/comments/new" class="btn btn-outline-info">
+                            <a href="/posts/<%=foundPost._id%>/comments/new" class="btn btn-outline-info">
                                 <i class="icon plus"></i>Add Comment
-                                <a href="/campgrounds/<%=foundCampground._id%>/comments/new"
+                                <a href="/campgrounds/<%=foundPost._id%>/comments/new"
                                     class="btn btn-outline-info">
                                     <span style="display: inline-block;" class="">
-                                        #<%=foundCampground.comments.length%>
+                                        #<%=foundPost.comments.length%>
                                     </span>
                                 </a>
 
@@ -147,7 +147,7 @@
         <!-- <div class="row justify-content-center">
     <button class="btn btn-danger">
         <a style="color: white; display:inline-block" class="nav-link inline"
-            href="/campgrounds/<%=foundCampground._id%>/comments/new">
+            href="/campgrounds/<%=foundPost._id%>/comments/new">
             <i class="icon comments"></i> Comment
         </a s>
        
