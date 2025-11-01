@@ -1,14 +1,12 @@
 const ENV = require("dotenv");
-const path = require("path");
 ENV.config();
 
 var moment = require("moment");
 
 var express = require("express");
 var app = express();
-app.use(express.static(path.join(__dirname, "static")));
+app.use(express.static("static"));
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
 
 var mongoose = require("mongoose");
 var bp = require("body-parser");
@@ -68,7 +66,6 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
-  console.log(`${req.method} ${req.url}`);
   res.locals.currentUser = req.user;
   next();
 });
@@ -77,9 +74,8 @@ app.use(indexRoutes);
 app.use(postRoutes);
 app.use(commentRoutes);
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`server started at port ${port}`);
+app.listen(process.env.PORT, () => {
+  console.log(`server started at port ${process.env.PORT}`);
 });
 
 module.exports = app;
