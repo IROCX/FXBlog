@@ -74,6 +74,8 @@ app.use(indexRoutes);
 app.use(postRoutes);
 app.use(commentRoutes);
 
-app.listen(process.env.PORT, process.env.IP, () => {});
+app.listen(process.env.PORT, () => {
+  console.log(`server started at port ${process.env.PORT}`);
+});
 
 module.exports = app;
