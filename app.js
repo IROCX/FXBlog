@@ -32,11 +32,35 @@ var dbURL =
   process.env.password +
   "@cluster0-ji2ke.azure.mongodb.net?retryWrites=true&w=majority";
 
-mongoose.connect(dbURL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
+// Just for serverless function platform deployments
+let isConnected = false;
+async function connectToDatabase() {
+  try {
+    await mongoose.connect(dbURL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+    });
+    isConnected = true;
+    console.log("Connected to database");
+  } catch (error) {
+    console.error("Error connecting to database:", error);
+  }
+}
+
+app.use((req, res, next) => {
+  if (!isConnected) {
+    connectToDatabase();
+  }
+  next();
 });
+
+// For deployment to non serverless platforms
+// mongoose.connect(dbURL, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+//   useCreateIndex: true,
+// });
 
 mongoose.connection.on("connected", function () {
   console.log("Connected to production database");
@@ -77,9 +101,10 @@ app.use(indexRoutes);
 app.use(postRoutes);
 app.use(commentRoutes);
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`server started at port ${port}`);
-});
+// For deployment to non serverless platforms
+// const port = process.env.PORT || 3000;
+// app.listen(port, () => {
+//   console.log(`server started at port ${port}`);
+// });
 
 module.exports = app;
