@@ -16,6 +16,8 @@ var methodOverride = require("method-override");
 var passport = require("passport");
 var localStrategy = require("passport-local");
 var User = require("./models/user.js");
+require("./models/posts.js");
+require("./models/comments.js");
 
 var commentRoutes = require("./routes/comments");
 var postRoutes = require("./routes/posts");

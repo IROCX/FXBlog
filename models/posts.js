@@ -7,7 +7,7 @@ var postSchema = new mongoose.Schema({
   comments: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "comment",
+      ref: "Comment",
     },
   ],
   author: {
@@ -19,4 +19,4 @@ var postSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("post", postSchema);
+module.exports = mongoose.model("Post", postSchema);
