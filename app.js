@@ -1,12 +1,14 @@
 const ENV = require("dotenv");
+const path = require("path");
 ENV.config();
 
 var moment = require("moment");
 
 var express = require("express");
 var app = express();
-app.use(express.static("static"));
+app.use(express.static(path.join(__dirname, "static")));
 app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 var mongoose = require("mongoose");
 var bp = require("body-parser");
@@ -74,8 +76,9 @@ app.use(indexRoutes);
 app.use(postRoutes);
 app.use(commentRoutes);
 
-app.listen(process.env.PORT, () => {
-  console.log(`server started at port ${process.env.PORT}`);
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`server started at port ${port}`);
 });
 
 module.exports = app;
