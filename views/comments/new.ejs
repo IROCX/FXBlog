@@ -18,10 +18,10 @@
         <div class="h3 text-center"> <i class="user plus icon"></i> Add new comment for</div><br>
     </div>
     <div class="row justify-content-center">
-        <div class="h2 text-center"> <%=campground.name%></div>
+        <div class="h2 text-center"> <%=post.name%></div>
     </div>
 
-    <form action="/campgrounds/<%=campground._id%>/comments" method="post">
+    <form action="/posts/<%=post._id%>/comments" method="post">
 
         <div class="row-fluid form-group">
             <label for="">Comment</label> <br>
@@ -34,7 +34,7 @@
             <div class="btn-group">
                 <input class="btn btn-outline-success" type="submit" value="Save">
                 <button type="button" class="btn btn-outline-danger ml-1"
-                    onclick="location.href='/campgrounds/<%=campground._id%>'">Go
+                    onclick="location.href='/posts/<%=post._id%>'">Go
                     Back</button>
             </div>
         </div>

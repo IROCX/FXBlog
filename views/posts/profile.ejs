@@ -57,7 +57,7 @@
                         <p class="card-text text-justify">
                             <span class="ui fluid">
                                 <i class=" info icon"></i>
-                                <a href="/campgrounds/<%=value._id%>">Click here for more info</a>
+                                <a href="/posts/<%=value._id%>">Click here for more info</a>
                             </span>
                         </p>
                         <p class="card-text">
@@ -78,7 +78,7 @@
 </div>
 
 <%if(typeof currentUser !== 'undefined'){%>
-<a href="/campgrounds/add" class="btn btn-danger" id="addbutton">
+<a href="/posts/add" class="btn btn-danger" id="addbutton">
     <span style="font-size: 1.25rem;">Add a post</span>
     <i style="font-size: 1.5rem;" class="icon plus"></i>
 </a>

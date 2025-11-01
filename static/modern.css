@@ -1,0 +1,275 @@
+:root {
+  --primary-bg-color: #F8F8F8;
+  --accent-color: #2F4F4F;
+  --body-font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --title-font: 'Georgia', 'Times New Roman', Times, serif;
+}
+
+body {
+  background-color: var(--primary-bg-color);
+  font-family: var(--body-font);
+  color: #333;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.container {
+  flex: 1;
+}
+
+.footer {
+  background-color: #333;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.container {
+  flex: 1;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.post-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.post-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px;
+  transition: box-shadow 0.3s ease;
+}
+
+.post-card:hover {
+  box-shadow: 0 0 10px var(--accent-color);
+}
+
+.post-card h2 {
+  font-family: var(--title-font);
+  color: var(--accent-color);
+  margin-top: 0;
+}
+
+.post-card .meta {
+  font-size: 0.9em;
+  color: #666;
+}
+
+.post-content {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.post-content h1, .post-content h2, .post-content h3 {
+  font-family: var(--title-font);
+  color: var(--accent-color);
+}
+
+.toc {
+  position: sticky;
+  top: 20px;
+  width: 200px;
+  padding: 10px;
+  background: #f0f0f0;
+  border-radius: 5px;
+}
+
+.toc ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.toc li a {
+  display: block;
+  padding: 5px;
+  color: #333;
+}
+
+.toc li a.active {
+  background-color: var(--accent-color);
+  color: #fff;
+}
+
+pre {
+  background: #2d2d2d;
+  color: #f8f8f2;
+  padding: 1em;
+  border-radius: 5px;
+  overflow-x: auto;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input, .form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-group input:focus, .form-group textarea:focus {
+  border-color: var(--accent-color);
+  outline: none;
+  box-shadow: 0 0 5px var(--accent-color);
+}
+
+.btn {
+  background-color: var(--accent-color);
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.navbar a:hover {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.btn {
+  background-color: var(--accent-color);
+  color: #fff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #1a2d2d;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+}
+
+.post-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.post-card {
+  display: flex;
+}
+
+.post-card-thumbnail {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+
+.navbar {
+  background-color: #333;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+}
+
+.navbar-brand {
+  font-weight: bold;
+}
+
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-left, .navbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-nav {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-nav li {
+  margin-left: 1rem;
+}
+
+.form-container {
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.floating-add-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 24px;
+    line-height: 60px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.post-show-image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.post-card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.post-card-link:hover {
+    text-decoration: none;
+}
