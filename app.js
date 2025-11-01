@@ -68,6 +68,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
   res.locals.currentUser = req.user;
   next();
 });

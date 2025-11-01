@@ -25,11 +25,12 @@ router.post(
     failureRedirect: "/login",
   }),
   (req, res) => {
-    console.log("logging in....", req);
+    console.log("User logged in:", req.user.username);
   }
 );
 
 router.get("/logout", (req, res) => {
+  console.log("User logged out:", req.user.username);
   req.logOut();
   res.redirect("/login");
 });
@@ -44,12 +45,14 @@ router.post("/register", (req, res) => {
     contact: req.body.contact,
     email: req.body.email,
   });
+  console.log("Attempting to register new user:", req.body.username);
   User.register(newUser, req.body.password, (error, ir) => {
     if (error) {
-      console.log("Error", error);
+      console.error("Error registering user:", error);
       return res.render("forms/register");
     }
     passport.authenticate("local")(req, res, () => {
+      console.log("User registered and authenticated:", ir.username);
       res.redirect("/posts");
     });
   });

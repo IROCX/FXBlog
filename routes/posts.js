@@ -5,16 +5,20 @@ var Comment = require("../models/comments");
 var User = require("../models/user");
 
 router.get("/posts", (req, res) => {
+  console.log("GET /posts - Fetching all posts");
   //GET POSTS FROM DB
   Post.find({}, (error, itemReturned) => {
-    if (error) console.log(error);
-    else {
+    if (error) {
+      console.error("Error fetching posts:", error);
+      res.redirect("back");
+    } else {
       res.render("posts/posts", { posts: itemReturned });
     }
   });
 });
 
 router.post("/posts", isLoggedIn, (req, res) => {
+  console.log("POST /posts - Creating a new post");
   var name = req.body.name;
   var image = req.body.image;
   req.body.desc = req.sanitize(req.body.desc);
@@ -29,26 +33,29 @@ router.post("/posts", isLoggedIn, (req, res) => {
     description: description,
     author: author,
   };
-  console.log(newEntry);
+  console.log("New post data:", newEntry);
   // CREATE A NEW POST IN DB
   Post.create(newEntry, (error, itemReturned) => {
     if (error) {
-      console.log(error);
+      console.error("Error creating post:", error);
     } else console.log("New Post Created.");
   });
   res.redirect("/posts");
 });
 
 router.get("/posts/add", isLoggedIn, (req, res) => {
+  console.log("GET /posts/add - Rendering new post form");
   res.render("posts/new");
 });
 
 router.get("/posts/:id", (req, res) => {
+  console.log(`GET /posts/${req.params.id} - Fetching post`);
   Post.findById(req.params.id)
     .populate("comments")
     .exec((error, itemReturned) => {
       if (error) {
-        console.log(error);
+        console.error("Error fetching post:", error);
+        res.redirect("/posts");
       } else {
         res.render("posts/show", {
           foundPost: itemReturned,
@@ -60,19 +67,26 @@ router.get("/posts/:id", (req, res) => {
 
 //====================Edit Route=================
 router.get("/posts/:id/edit", actionAuth, (req, res) => {
+  console.log(`GET /posts/${req.params.id}/edit - Rendering edit form`);
   Post.findById(req.params.id, (error, itemReturned) => {
-    res.render("posts/edit", { editPost: itemReturned });
+    if (error) {
+      console.error("Error fetching post for edit:", error);
+      res.redirect("/posts");
+    } else {
+      res.render("posts/edit", { editPost: itemReturned });
+    }
   });
 });
 
 router.put("/posts/:id", actionAuth, (req, res) => {
-  console.log(req.body.updateData.desc);
+  console.log(`PUT /posts/${req.params.id} - Updating post`);
+  console.log("Update data:", req.body.updateData);
   Post.findByIdAndUpdate(
     req.params.id,
     req.body.updateData,
     (error, itemReturned) => {
       if (error) {
-        console.log("Error updating post");
+        console.error("Error updating post:", error);
       }
       res.redirect("/posts/" + req.params.id);
     }
@@ -81,38 +95,49 @@ router.put("/posts/:id", actionAuth, (req, res) => {
 
 //========================DELETE Route=================
 router.delete("/posts/:id", actionAuth, (req, res) => {
+  console.log(`DELETE /posts/${req.params.id} - Deleting post`);
   Post.findById(req.params.id, (error, itemReturned) => {
     if (error) {
-      console.log(error);
+      console.error("Error finding post to delete:", error);
+      res.redirect("/posts");
     } else {
       itemReturned.comments.forEach((value, index, array) => {
-        Comment.findByIdAndDelete(value, (error) => {});
+        Comment.findByIdAndDelete(value, (error) => {
+          if (error) {
+            console.error("Error deleting comment:", error);
+          }
+        });
       });
       itemReturned.deleteOne();
+      console.log("Post deleted successfully");
       res.redirect("/posts");
     }
   });
 });
 
 router.get("/userprofile/:id", isLoggedIn, (req, res) => {
+  console.log(`GET /userprofile/${req.params.id} - Fetching user profile`);
   User.findById(req.params.id, (error, ir) => {
     if (error) {
-      console.log("error==============================");
+      console.error("Error fetching user profile:", error);
+      res.redirect("back");
     } else {
       Post.find({ "author.id": req.params.id }, (error, irPosts) => {
-        if (error) console.log("error");
-        else {
+        if (error) {
+          console.error("Error fetching user posts:", error);
+          res.redirect("back");
+        } else {
           if (req.params.id === "5dc8f136e53c1f1d847bd643") {
             User.find({}, (error, allusers) => {
               if (error) {
-                console.log("error");
+                console.error("Error fetching all users:", error);
+                res.redirect("back");
               } else {
                 res.render("posts/profile.ejs", {
                   userDetails: irPosts,
                   user: ir,
                   userlist: allusers,
                 });
-                console.log(allusers);
               }
             });
           } else {
@@ -128,28 +153,33 @@ router.get("/userprofile/:id", isLoggedIn, (req, res) => {
 });
 
 router.get("/user/destroy/:id", isLoggedIn, (req, res) => {
+  console.log(`GET /user/destroy/${req.params.id} - Deleting user and posts`);
   Post.find({ "author.id": req.params.id }, (error, ir) => {
     if (error) {
-      console.log("error in deleting user's posts");
+      console.error("Error finding user's posts to delete:", error);
     } else {
-      // console.log('user to be deleted' + ir)
       ir.forEach((value) => {
         value.deleteOne();
       });
+      console.log("User's posts deleted successfully");
     }
   });
   User.findByIdAndRemove(req.params.id, (error, ir) => {
     if (error) {
+      console.error("Error deleting user:", error);
       res.redirect("back");
     } else {
+      console.log("User deleted successfully");
       res.redirect("back");
     }
   });
 });
 
 router.post("/search", isLoggedIn, (req, res) => {
+  console.log(`POST /search - Searching for user: ${req.body.user}`);
   Post.find({ "author.username": req.body.user }, (error, ir) => {
     if (error) {
+      console.error("Error searching for user:", error);
       res.redirect("/posts");
     } else {
       res.render("posts/searchtemplate", {
