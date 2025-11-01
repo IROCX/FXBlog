@@ -37,7 +37,6 @@ async function connectToDatabase() {
     await mongoose.connect(dbURL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      useCreateIndex: true,
     });
     isConnected = true;
     console.log("Connected to database");
@@ -68,7 +67,6 @@ mongoose.connection.on("error", function (err) {
   console.error("Error connecting to production database:", err);
 });
 
-mongoose.set("useFindAndModify", false);
 app.use(bp.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
