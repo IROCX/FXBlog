@@ -1,6 +1,4 @@
-<%include ../partials/header%>
-
-
+<%- include('../partials/header')%>
 <style>
     #floatButtonMini {
         position: absolute;
@@ -102,8 +100,7 @@
                 Welcome to <strong>FX Blog</strong>
             </h1>
             <p class="text-center" style="font-size: 1.2rem">
-                The Community for Tech <i class="icon random"></i>The Tech for
-                Community.
+                The Community for Tech <i class="icon random"></i>The Tech for Community
             </p>
         </div>
     </div>
@@ -139,7 +136,7 @@
                         <%=value.name%>
                     </h5>
                     <p class="card-text text-justify">
-                        <%=value.description.substring(0,150)%>...
+                        <%=value.description.substring(0,150) + '...'%>
 
                     </p>
                     <p class="card-text text-justify">
@@ -149,7 +146,7 @@
                         </span>
                     </p>
                     <p class="card-text">
-                        <small id='<%=value._id%>' class="test-muted " style="font-size:small; font-style:italic">
+                        <small class="post-date" data-date="<%= value.date.toISOString() %>" style="font-size:small; font-style:italic">
                         </small>
                     </p>
                 </div>
@@ -157,14 +154,16 @@
         </div>
     </div>
 </div>
-<script>
-    console.log(' <%= value.date %>');
-    document.getElementById('<%= value._id %>').innerHTML = '<strong>Posted on</strong> ' + moment(
-            ' <%= value.date %> ')
-        .format(
-            'HH:MM, DD MMM YYYY');
-</script>
 <%})%>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const postDates = document.querySelectorAll('.post-date');
+        postDates.forEach(dateEl => {
+            const date = dateEl.getAttribute('data-date');
+            dateEl.innerHTML = '<strong>Posted on</strong> ' + moment(date).format('HH:MM, DD MMM YYYY');
+        });
+    });
+</script>
 
 
-<%include ../partials/footer%>
+<%- include('../partials/footer')%>

@@ -1,8 +1,6 @@
 const ENV = require("dotenv");
 ENV.config();
 
-var moment = require("moment");
-
 var express = require("express");
 var app = express();
 app.use(express.static("static"));
@@ -34,7 +32,7 @@ var dbURL =
 let isConnected = false;
 async function connectToDatabase() {
   try {
-    await mongoose.connect(dbURL, {
+    mongoose.connect(dbURL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
