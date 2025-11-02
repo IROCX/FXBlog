@@ -1,14 +1,30 @@
-var mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
-var commentsSchema = new mongoose.Schema({
-    text: String,
+const commentSchema = new mongoose.Schema(
+  {
+    text: {
+      type: String,
+      required: true,
+      trim: true, // Remove leading and trailing whitespaces
+      maxlength: [5000, 'Text exceeds the maximum allowed length (5000 characters).'],
+    },
     author: {
-        id: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-        },
-        username: String
-    }
-})
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+      },
+      username: {
+        type: String,
+        required: true,
+      },
+    },
+  },
+  {
+    timestamps: true, // Adds createdAt and updatedAt fields
+  }
+);
 
-module.exports = mongoose.model('comment', commentsSchema)
+const Comment = mongoose.model('Comment', commentSchema);
+
+module.exports = Comment;

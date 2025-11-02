@@ -1,7 +1,7 @@
-<%include ../partials/header%>
+<%- include('../partials/header')%>
 
 <div id="floatButton" class="ui menu">
-    <button class="ui basic button" onclick="location.href='campgrounds'"><i class="icon home"></i></button>
+    <button class="ui basic button" onclick="location.href='posts'"><i class="icon home"></i></button>
 </div>
 
 <div style="margin-top: 5%" class="ui container">
@@ -15,7 +15,7 @@
                 <%=searchedUser.length%> Results found
             </p>
             <%if(typeof currentUser !== 'undefined'){%>
-            <button class="ui primary button" onclick="location.href='/campgrounds/add'">
+            <button class="ui primary button" onclick="location.href='/posts/add'">
                 <i class="icon plus"></i>Add Blog Post
             </button>
             <%}else{%>
@@ -44,7 +44,7 @@
 
                     <span class="ui fluid">
                         <i class=" info icon"></i>
-                        <a href="/campgrounds/<%=value._id%>">Click here for more info</a>
+                        <a href="/posts/<%=value._id%>">Click here for more info</a>
                     </span>
                 </div>
 
@@ -52,4 +52,4 @@
             <%})%>
         </div>
     </div>
-    <%include ../partials/footer%>
+    <%- include('../partials/footer')%>

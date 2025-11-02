@@ -1,42 +1,42 @@
-<%include ../partials/header%>
+<%- include('../partials/header')%>
 
 <style>
-    .campgroundEditor {
+    .postEditor {
         max-width: 60%;
     }
 
     @media (max-width: 840px) {
-        .campgroundEditor {
+        .postEditor {
             max-width: 90%;
             padding-top: 10%;
         }
     }
 </style>
 
-<div class="container campgroundEditor" style="margin-top: 10%;">
+<div class="container postEditor" style="margin-top: 10%;">
     <div class="row justify-content-center">
-        <div class="h2 text-center">Edit new <%=editCampground.name%></div>
+        <div class="h2 text-center">Edit new <%=editPost.name%></div>
     </div>
 
-    <form action="/campgrounds/<%=editCampground._id%>?_method=PUT" method="post">
+    <form action="/posts/<%=editPost._id%>?_method=PUT" method="post">
 
         <div class="row-fluid form-group">
             <label for="">Name</label>
-            <input class="form-control" type="text" name="updateData[name]" value="<%=editCampground.name%>">
+            <input class="form-control" type="text" name="updateData[name]" value="<%=editPost.name%>">
         </div>
 
         <div class="row-fluid form-group">
             <label for="">Image URL</label><br>
             <div class="row">
                 <textarea type="text" name="updateData[image]" rows="4" style="width: 95%; margin:auto; border:1px solid #ced4da;
-                    padding:2%"><%=editCampground.image%></textarea>
+                    padding:2%"><%=editPost.image%></textarea>
             </div>
         </div>
         <div class="row-fluid form-group">
             <label for="">Description</label><br>
             <div class="row">
                 <textarea type="text" name="updateData[description]" rows="10" style="width: 95%; margin:auto; border:1px solid #ced4da;
-                    padding:2%;"><%=editCampground.description%></textarea>
+                    padding:2%;"><%=editPost.description%></textarea>
             </div>
         </div>
 
@@ -44,10 +44,10 @@
             <div class="btn-group">
                 <input class="btn btn-outline-success" type="submit" value="Save">
                 <button type="button" class="btn btn-outline-danger ml-1"
-                    onclick="location.href='/campgrounds'">Discard</button>
+                    onclick="location.href='/posts'">Discard</button>
             </div>
         </div>
     </form>
 </div>
 
-<%include ../partials/footer%>
+<%- include('../partials/footer')%>

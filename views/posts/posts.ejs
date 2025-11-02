@@ -1,6 +1,4 @@
-<%include ../partials/header%>
-
-
+<%- include('../partials/header')%>
 <style>
     #floatButtonMini {
         position: absolute;
@@ -50,9 +48,6 @@
     </form>
 </div>
 
-<button class="btn" id="searchEnable">
-    <i class="icon search"></i>
-</button c>
 
 <div id="floatButtonMini" class="form">
     <form autocomplete="off" action="/search" method="post" class="form">
@@ -105,15 +100,14 @@
                 Welcome to <strong>FX Blog</strong>
             </h1>
             <p class="text-center" style="font-size: 1.2rem">
-                The Community for Tech <i class="icon random"></i>The Tech for
-                Community.
+                The Community for Tech <i class="icon random"></i>The Tech for Community
             </p>
         </div>
     </div>
 </div>
 
 <%if(typeof currentUser !== 'undefined'){%>
-<a href="/campgrounds/add" class="btn btn-danger" id="addbutton">
+<a href="/posts/add" class="btn btn-danger" id="addbutton">
     <span style="font-size: 1.25rem;">Add a post</span>
     <i style="font-size: 1.5rem;" class="icon plus"></i>
 </a>
@@ -128,7 +122,7 @@
 
 <hr id="lastRuleStart" class="mt-5 mb-5 lastRule" />
 
-<%campgrounds.forEach((value, index, array) => {%>
+<%posts.forEach((value, index, array) => {%>
 <div class="container mb-4">
     <div class="card bg-light border-light">
         <div class="row no-gutters">
@@ -142,17 +136,17 @@
                         <%=value.name%>
                     </h5>
                     <p class="card-text text-justify">
-                        <%=value.description.substring(0,150)%>...
+                        <%=value.description.substring(0,150) + '...'%>
 
                     </p>
                     <p class="card-text text-justify">
                         <span class="ui fluid">
                             <i class=" info icon"></i>
-                            <a href="/campgrounds/<%=value._id%>">Click here for more info</a>
+                            <a href="/posts/<%=value._id%>">Click here for more info</a>
                         </span>
                     </p>
                     <p class="card-text">
-                        <small id='<%=value._id%>' class="test-muted " style="font-size:small; font-style:italic">
+                        <small class="post-date" data-date="<%= value.date.toISOString() %>" style="font-size:small; font-style:italic">
                         </small>
                     </p>
                 </div>
@@ -160,14 +154,16 @@
         </div>
     </div>
 </div>
-<script>
-    console.log(' <%= value.date %>');
-    document.getElementById('<%= value._id %>').innerHTML = '<strong>Posted on</strong> ' + moment(
-            ' <%= value.date %> ')
-        .format(
-            'HH:MM, DD MMM YYYY');
-</script>
 <%})%>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const postDates = document.querySelectorAll('.post-date');
+        postDates.forEach(dateEl => {
+            const date = dateEl.getAttribute('data-date');
+            dateEl.innerHTML = '<strong>Posted on</strong> ' + moment(date).format('HH:MM, DD MMM YYYY');
+        });
+    });
+</script>
 
 
-<%include ../partials/footer%>
+<%- include('../partials/footer')%>

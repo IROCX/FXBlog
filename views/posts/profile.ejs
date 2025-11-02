@@ -1,4 +1,4 @@
-<%include ../partials/header%>
+<%- include('../partials/header')%>
 
 <style>
     @media(max-width: 840px) {
@@ -12,7 +12,7 @@
 
 <div id="main" style="margin-top:5%" class="container-fluid">
     <div class="row justify-content-center">
-        <div class="col-md-4 col-11">
+        <div class="col-md-4 col-10" style="max-width: 20%">
             <div class="row justify-content-center">
                 <div class="col-12">
                     <div class="row justify-content-center">
@@ -38,10 +38,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-8 col-11">
+        <div class="col-md-8 col-10" style="max-width: 60%">
             <%userDetails.forEach((value, index, array) => {%>
             <div class="row no-gutters">
-                <div class="col-11 col-md-4 pd-0 m-auto">
+                <div class="col-4 col-md-4 pd-0 m-auto" style="max-width: 25%">
                     <img class="car-img mt-4" width="100%" height="200px" style="border-radius:5px"
                         src="<%=value.image%>" alt="" srcset="" />
                 </div>
@@ -57,7 +57,7 @@
                         <p class="card-text text-justify">
                             <span class="ui fluid">
                                 <i class=" info icon"></i>
-                                <a href="/campgrounds/<%=value._id%>">Click here for more info</a>
+                                <a href="/posts/<%=value._id%>">Click here for more info</a>
                             </span>
                         </p>
                         <p class="card-text">
@@ -78,11 +78,11 @@
 </div>
 
 <%if(typeof currentUser !== 'undefined'){%>
-<a href="/campgrounds/add" class="btn btn-danger" id="addbutton">
+<a href="/posts/add" class="btn btn-danger" id="addbutton">
     <span style="font-size: 1.25rem;">Add a post</span>
     <i style="font-size: 1.5rem;" class="icon plus"></i>
 </a>
 <%}%>
 
 
-<%include ../partials/footer%>
+<%- include('../partials/footer')%>
