@@ -159,10 +159,7 @@
 </div>
 <script>
     console.log(' <%= value.date %>');
-    document.getElementById('<%= value._id %>').innerHTML = '<strong>Posted on</strong> ' + moment(
-            ' <%= value.date %> ')
-        .format(
-            'HH:MM, DD MMM YYYY');
+    document.getElementById('<%= value._id %>').innerHTML = '<strong>Posted on</strong> ' + moment('<%= value.date %> ').format('HH:MM, DD MMM YYYY');
 </script>
 <%})%>
 
