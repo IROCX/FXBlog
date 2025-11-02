@@ -7,9 +7,8 @@
     "node": "24.x"
   },
   "scripts": {
-    "start": "node app.js",
-    "vercel-start": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon app.js",
+    "lint:ejs": "ejslint views/**/*.ejs"
   },
   "author": "IROC",
   "license": "ISC",
@@ -27,5 +26,8 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^5.0.1"
+  },
+  "devDependencies": {
+    "ejs-lint": "^2.0.1"
   }
 }
